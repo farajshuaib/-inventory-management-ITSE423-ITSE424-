@@ -30,7 +30,7 @@
                                         <HBox alignment="CENTER" prefHeight="73.0" prefWidth="558.0">
                                             <children>
                                                 <Label prefHeight="61.0" prefWidth="172.0" text="Signup"
-                                                       textFill="#0dd8a2">
+                                                       textFill="#073757">
                                                     <font>
                                                         <Font name="Bauhaus 93" size="51.0"/>
                                                     </font>
@@ -174,7 +174,7 @@
                                                 <Insets left="20.0" right="20.0"/>
                                             </padding>
                                             <children>
-                                                <Label text="Gender" textFill="#0dd8a2"/>
+                                                <Label text="Gender" textFill="#073757"/>
                                                 <JFXRadioButton fx:id="maleRadio" styleClass="radio-btn" text="Male">
                                                     <toggleGroup>
                                                         <ToggleGroup fx:id="gender"/>
@@ -189,7 +189,7 @@
                                             <children>
                                                 <JFXButton fx:id="signUpBtn" onMouseClicked="#signUpBtnAction"
                                                            prefHeight="48.0" prefWidth="587.0"
-                                                           style="-fx-background-color: #0DD8A2;" text="SignUp"
+                                                           style="-fx-background-color: #073757;" text="SignUp"
                                                            textFill="WHITE" HBox.hgrow="ALWAYS">
                                                     <font>
                                                         <Font name="Bauhaus 93" size="22.0"/>
@@ -211,7 +211,7 @@
                                         <HBox alignment="CENTER" prefHeight="20.0" prefWidth="291.0">
                                             <children>
                                                 <Label prefHeight="59.0" prefWidth="145.0" text="Login"
-                                                       textFill="#0dd8a2">
+                                                       textFill="#073757">
                                                     <font>
                                                         <Font name="Bauhaus 93" size="51.0"/>
                                                     </font>
@@ -291,7 +291,7 @@
                                             <children>
                                                 <JFXButton fx:id="loginBtn" onMouseClicked="#loginBtnAction"
                                                            prefHeight="48.0" prefWidth="587.0"
-                                                           style="-fx-background-color: #0DD8A2;" text="Login"
+                                                           style="-fx-background-color: #073757;" text="Login"
                                                            textFill="WHITE" HBox.hgrow="ALWAYS">
                                                     <font>
                                                         <Font name="Bauhaus 93" size="22.0"/>
