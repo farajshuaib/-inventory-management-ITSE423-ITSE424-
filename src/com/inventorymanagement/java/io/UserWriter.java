@@ -1,9 +1,3 @@
-/*
- *  Created by @Mak
- *  User: Ahmad
- *  Date: 8/28/2020
- *  Time: 9:43 AM
- */
 package com.inventorymanagement.java.io;
 
 

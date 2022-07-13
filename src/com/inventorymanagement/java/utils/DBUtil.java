@@ -1,9 +1,4 @@
-/*
- *  Created by @Mak
- *  User: Ahmad
- *  Date: 8/14/2020
- *  Time: 2:35 PM
- */
+
 package com.inventorymanagement.java.utils;
 
 import com.inventorymanagement.java.dao.DBConnection;

@@ -1,9 +1,4 @@
-/*
- *  Created by @Mak
- *  User: Ahmad
- *  Date: 8/9/2020
- *  Time: 4:19 PM
- */
+
 package com.inventorymanagement.java.main;
 
 import com.inventorymanagement.java.io.UserWriter;

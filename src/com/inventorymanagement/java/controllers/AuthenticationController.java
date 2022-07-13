@@ -1,9 +1,4 @@
-/*
- *  Created by @Mak
- *  User: Ahmad
- *  Date: 8/27/2020
- *  Time: 4:21 PM
- */
+
 package com.inventorymanagement.java.controllers;
 
 import com.inventorymanagement.java.dao.UsersDB;
@@ -28,7 +23,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.apache.commons.codec.digest.DigestUtils;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
 
@@ -85,7 +79,8 @@ public class AuthenticationController {
             return;
         }
 
-        if (!usersDB.authenticate(loginEmailBtn.getText(), DigestUtils.sha1Hex(loginPasswordField.getText()))) {
+
+        if (!usersDB.authenticate(loginEmailBtn.getText(), loginPasswordField.getText())) {
             Alerts.jfxAlert("Error", "Email or password incorrect");
             return;
         }

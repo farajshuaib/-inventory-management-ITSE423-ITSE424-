@@ -1,9 +1,4 @@
-/*
- *  Created by @Mak
- *  User: Ahmad
- *  Date: 8/13/2020
- *  Time: 1:23 PM
- */
+
 package com.inventorymanagement.java.models;
 
 public class User {

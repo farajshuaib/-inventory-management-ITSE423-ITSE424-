@@ -1,9 +1,4 @@
-/*
- *  Created by @Mak
- *  User: Ahmad
- *  Date: 8/25/2020
- *  Time: 4:20 PM
- */
+
 package com.inventorymanagement.java.utils;
 
 import javafx.scene.Parent;

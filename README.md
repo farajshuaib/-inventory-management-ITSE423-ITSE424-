@@ -33,7 +33,7 @@ This project uses a number of libraries:
 => Mysql connector 8<p/>
 
 This project is written in java 8, however it can be run also in the future release of java with no syntax error or problem (9, 11, 12, 13, 14, #current release, ...others)
-to run this project in java 9-14 you need to set up javafx sdk and use VMOptions to set it to path. The <b>schoolmanagement.Main</b> class is the main class to run, 
+to run this project in java 9-14 you need to set up javafx sdk and use VMOptions to set it to path. 
 java8 has the javafx inbuilt no need to set it up
 
 Note: *Dont forget to edit the `/dbConfig.properties` file , make sure you change the connection string to match your local host / db connection url, and need to be mysql*

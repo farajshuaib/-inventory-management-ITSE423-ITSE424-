@@ -1,9 +1,4 @@
-/*
- *  Created by @Mak
- *  User: Ahmad
- *  Date: 8/28/2020
- *  Time: 9:26 AM
- */
+
 package com.inventorymanagement.java.utils;
 
 import javafx.util.Duration;

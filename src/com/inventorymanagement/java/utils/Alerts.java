@@ -1,9 +1,4 @@
-/*
- *  Created by @Mak
- *  User: Ahmad
- *  Date: 8/9/2020
- *  Time: 7:30 PM
- */
+
 package com.inventorymanagement.java.utils;
 
 import com.jfoenix.controls.JFXAlert;

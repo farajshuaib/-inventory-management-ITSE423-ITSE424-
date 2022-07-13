@@ -1,9 +1,4 @@
-/*
- *  Created by @Mak
- *  User: Ahmad
- *  Date: 8/9/2020
- *  Time: 4:22 PM
- */
+
 package com.inventorymanagement.java.utils;
 
 public final class Constants {

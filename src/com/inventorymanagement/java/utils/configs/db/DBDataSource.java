@@ -1,9 +1,4 @@
-/*
- *  Created by @Mak
- *  User: Ahmad
- *  Date: 8/9/2020
- *  Time: 4:47 PM
- */
+
 package com.inventorymanagement.java.utils.configs.db;
 
 import com.inventorymanagement.java.utils.Constants;

@@ -1,9 +1,4 @@
-/*
- *  Created by @Mak
- *  User: Ahmad
- *  Date: 8/25/2020
- *  Time: 3:46 PM
- */
+
 package com.inventorymanagement.java.controllers;
 
 import com.inventorymanagement.java.dao.IssuesDB;
