@@ -2,12 +2,10 @@
 package com.inventorymanagement.java.controllers;
 
 import com.inventorymanagement.java.dao.CategoriesDB;
-import com.inventorymanagement.java.dao.IssuesDB;
 import com.inventorymanagement.java.dao.ProductsDB;
 import com.inventorymanagement.java.dao.RecordsDB;
 import com.inventorymanagement.java.main.Launcher;
 import com.inventorymanagement.java.models.Category;
-import com.inventorymanagement.java.models.Issue;
 import com.inventorymanagement.java.models.Product;
 import com.inventorymanagement.java.models.Record;
 import com.inventorymanagement.java.utils.Alerts;
@@ -44,7 +42,6 @@ public class MainController {
     List<Product> getProductsList = null;
     ObservableList<RecursiveProduct> productList = null;
     ProductsDB productsDB = new ProductsDB();
-    IssuesDB issuesDB = new IssuesDB();
     CategoriesDB categoriesDB = new CategoriesDB();
     RecordsDB recordsDB = new RecordsDB();
     @FXML
@@ -53,8 +50,7 @@ public class MainController {
     private MenuItem menuDeleteBtn;
     @FXML
     private JFXButton addBtn;
-    @FXML
-    private JFXButton issuePurchaseBtn;
+
     @FXML
     private JFXTextField searchField;
     @FXML
@@ -189,18 +185,35 @@ public class MainController {
                     return;
                 }
 
-//                Issue issue = new Issue(0, Integer.parseInt(numberInStockField.getText()),
-//                        Double.parseDouble(productPriceField.getText()),
-//                        productNameField.getText(), productDescriptionField.getText(),
-//                        categoryComboList.getSelectionModel().getSelectedItem());
-                Issue issue = new Issue(0, Double.parseDouble(productPriceField.getText() + "D"), productNameField.getText(),
-                        productDescriptionField.getText(), categoryComboList.getSelectionModel().getSelectedItem(),
-                        Integer.parseInt(numberInStockField.getText()), LocalDateTime.now().toString());
+                Record record = new Record(
+                        0,
+                        Double.parseDouble(productPriceField.getText()),
+                        productNameField.getText(),
+                        categoryComboList.getSelectionModel().getSelectedItem(),
+                        productDescriptionField.getText(),
+                        "added", LocalDateTime.now().toString()
+                );
 
-                if (issuesDB.addIssue(issue) != 1) {
+                if (recordsDB.addRecord(record) != 1) {
                     Alerts.jfxAlert("Error", "An error occurred");
                     return;
                 }
+
+                Product product = new Product(
+                        0,
+                        Integer.parseInt(numberInStockField.getText()),
+                        Double.parseDouble(productPriceField.getText()),
+                        productNameField.getText(),
+                        productDescriptionField.getText(),
+                        categoryComboList.getSelectionModel().getSelectedItem()
+                );
+
+                if (productsDB.addProduct(product) != 1) {
+                    Alerts.jfxAlert("Error", "An error occurred");
+                    return;
+                }
+
+
 
                 refreshAction();
                 dialog.close();
@@ -437,104 +450,6 @@ public class MainController {
             dialog.show();
         });
 
-        //issue purchase
-        issuePurchaseBtn.setOnAction(event -> {
-            if (tableView.getSelectionModel().getFocusedIndex() == -1) {
-                Alerts.jfxAlert("Error", "No item selected");
-                return;
-            }
-
-            BoxBlur blur = new BoxBlur(3.0, 3.0, 3);
-            mainPane.setEffect(blur);
-
-            JFXDialogLayout content = new JFXDialogLayout();
-            JFXDialog dialog = new JFXDialog(primaryPane, content, JFXDialog.DialogTransition.TOP);
-            content.setAlignment(Pos.CENTER);
-            content.setHeading(new Text("Issue Purchase"));
-            dialog.setOverlayClose(false);
-            VBox box = new VBox();
-            box.setSpacing(15);
-            box.setAlignment(Pos.CENTER);
-
-            JFXTextField quantityField = new JFXTextField("1");
-            quantityField.setPromptText("Enter quantity");
-            quantityField.setLabelFloat(true);
-
-            box.getChildren().addAll(quantityField);
-            box.setSpacing(30.0);
-            content.setBody(box);
-
-            JFXButton saveBtn = new JFXButton("Ok");
-            JFXButton cancelBtn = new JFXButton("Cancel");
-
-            saveBtn.getStyleClass().add("dial-btn");
-            cancelBtn.getStyleClass().add("dial-btn");
-            saveBtn.setOnAction(event1 -> {
-                if (quantityField.getText().isEmpty() || quantityField.getText().trim().isEmpty()) {
-                    Alerts.jfxAlert("Error", "Quantity Field cannot be empty");
-                    return;
-                }
-
-                if (!Validators.isNumber(quantityField.getText())) {
-                    Alerts.jfxAlert("Error", "Quantity must be a valid number");
-                    return;
-                }
-
-                if (Integer.parseInt(
-                        quantityField.getText()) > Integer.parseInt(
-                        tableView.getSelectionModel().getSelectedItem()
-                                .getValue().getNoInStock())
-                ) {
-                    Alerts.jfxAlert("Error", "The quantity provided is greater than quantity in stock");
-                    return;
-                }
-
-                Record record = new Record(
-                        0,
-                        Double.parseDouble(tableView.getSelectionModel().getSelectedItem().getValue().getProductPrice()),
-                        tableView.getSelectionModel().getSelectedItem().getValue().getProductName(),
-                        tableView.getSelectionModel().getSelectedItem().getValue().getProductCategory(),
-                        tableView.getSelectionModel().getSelectedItem().getValue().getProductDescription(),
-                        "purchased", LocalDateTime.now().toString()
-                );
-
-                if (recordsDB.addRecord(record) != 1) {
-                    Alerts.jfxAlert("Error", "An error occurred");
-                    return;
-                }
-
-                int newQuantity = Integer.parseInt(
-                        tableView.getSelectionModel().
-                                getSelectedItem().getValue().
-                                getNoInStock()) -
-                        Integer.parseInt(quantityField.getText());
-
-                if (productsDB.issuePurchase(Integer.parseInt(
-                        tableView.getSelectionModel().getSelectedItem().getValue().getId())
-                        , newQuantity) != 1) {
-                    Alerts.jfxAlert("Error", "Some error occurred");
-                }
-
-                if (newQuantity == 0) {
-                    productsDB.deleteProduct(Integer.parseInt(
-                            tableView.getSelectionModel().getSelectedItem().getValue().getId()));
-                }
-
-                refreshAction();
-                dialog.close();
-            });
-
-            cancelBtn.setOnAction(event1 -> {
-                dialog.close();
-            });
-
-            content.setActions(saveBtn, cancelBtn);
-
-            dialog.setOnDialogClosed(event1 -> {
-                mainPane.setEffect(null);
-            });
-            dialog.show();
-        });
     }
 
     // setting table values
@@ -594,18 +509,6 @@ public class MainController {
         }
     }
 
-    // issue handler
-    public void issueBtnEvent(MouseEvent mouseEvent) {
-        Parent parent = null;
-        try {
-            parent = FXMLLoader.load(getClass().getResource(Constants.ISSUE_FXML_DIR));
-            Stage stage = (Stage) mainPane.getScene().getWindow();
-            stage.setScene(MyScene.getScene(parent));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
 
     // category handler
     public void categoryBtnEvent(MouseEvent mouseEvent) {

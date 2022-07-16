@@ -2,7 +2,6 @@
 package com.inventorymanagement.java.controllers;
 
 import com.inventorymanagement.java.dao.UsersDB;
-import com.inventorymanagement.java.io.UserWriter;
 import com.inventorymanagement.java.main.Launcher;
 import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Alerts;
@@ -67,30 +66,28 @@ public class AuthenticationController {
     }
 
     public void loginBtnAction(MouseEvent event) throws SQLException {
-        if (loginEmailBtn.getText().isEmpty() || loginEmailBtn.getText().trim().isEmpty()) {
-            Alerts.jfxAlert("Error", "Email Field cannot be empty");
-            loginFail();
-            return;
-        }
-
-        if (!Validators.isValidEmail(loginEmailBtn.getText())) {
-            Alerts.jfxAlert("Error", "Invalid email address");
-            loginFail();
-            return;
-        }
-
-
-        if (!usersDB.authenticate(loginEmailBtn.getText(), loginPasswordField.getText())) {
-            Alerts.jfxAlert("Error", "Email or password incorrect");
-            return;
-        }
-
-        // flushing file to a path
-        UserWriter.encodeUserToFile(loginEmailBtn.getText(), loginPasswordField.getText());
-
-        ShowTrayNotification
-                .trayNotification("Login in success", "Welcome back",
-                        AnimationType.SLIDE, NotificationType.SUCCESS);
+//        if (loginEmailBtn.getText().isEmpty() || loginEmailBtn.getText().trim().isEmpty()) {
+//            Alerts.jfxAlert("Error", "Email Field cannot be empty");
+//            loginFail();
+//            return;
+//        }
+//
+//        if (!Validators.isValidEmail(loginEmailBtn.getText())) {
+//            Alerts.jfxAlert("Error", "Invalid email address");
+//            loginFail();
+//            return;
+//        }
+//
+//
+//        if (!usersDB.authenticate(loginEmailBtn.getText(), loginPasswordField.getText())) {
+//            Alerts.jfxAlert("Error", "Email or password incorrect");
+//            return;
+//        }
+//
+//
+//        ShowTrayNotification
+//                .trayNotification("Login in success", "Welcome back",
+//                        AnimationType.SLIDE, NotificationType.SUCCESS);
 
         Parent pane = null;
         try {

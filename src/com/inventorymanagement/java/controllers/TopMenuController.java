@@ -1,7 +1,6 @@
 
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.io.UserWriter;
 import com.inventorymanagement.java.main.Launcher;
 import com.inventorymanagement.java.utils.Constants;
 import javafx.application.Platform;
@@ -68,7 +67,6 @@ public class TopMenuController {
         });
         minimize_btn.setOnMouseClicked(event -> Launcher.stage.setIconified(true));
         log_out_btn.setOnMouseClicked(event -> {
-            UserWriter.clearCurrentUser();
 
             Parent pane = null;
             try {
@@ -89,7 +87,5 @@ public class TopMenuController {
             stage.setResizable(false);
             stage.show();
         });
-//       menu_btn.setOnMouseClicked(event -> );
-//       refresh_btn.setOnMouseClicked(event -> );
     }
 }

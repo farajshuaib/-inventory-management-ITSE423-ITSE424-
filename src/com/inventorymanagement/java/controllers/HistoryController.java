@@ -142,18 +142,6 @@ public class HistoryController {
         }
     }
 
-    // issue handler
-    public void issueBtnEvent(MouseEvent mouseEvent) {
-        Parent parent = null;
-        try {
-            parent = FXMLLoader.load(getClass().getResource(Constants.ISSUE_FXML_DIR));
-            Stage stage = (Stage) mainPane.getScene().getWindow();
-            stage.setScene(MyScene.getScene(parent));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
 
     // category handler
     public void categoryBtnEvent(MouseEvent mouseEvent) {
