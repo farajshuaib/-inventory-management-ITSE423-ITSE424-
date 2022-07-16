@@ -3,7 +3,6 @@ package com.inventorymanagement.java.dao;
 
 import com.inventorymanagement.java.models.Record;
 import com.inventorymanagement.java.utils.DBConstants;
-import com.inventorymanagement.java.utils.DBUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -81,6 +80,13 @@ public class RecordsDB {
         String query = "DELETE FROM " + DBConstants.TABLE_RECORDS + "  WHERE " +
                 Record.RECORD_ID + " = " + id + ";  ";
 
-        return DBUtil.getInstance().statement(query);
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            return preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+            return -1;
+        }
     }
 }

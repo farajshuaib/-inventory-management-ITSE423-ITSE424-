@@ -3,7 +3,6 @@ package com.inventorymanagement.java.dao;
 
 import com.inventorymanagement.java.models.Category;
 import com.inventorymanagement.java.utils.DBConstants;
-import com.inventorymanagement.java.utils.DBUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -92,7 +91,17 @@ public class CategoriesDB {
         String query = "DELETE FROM " + DBConstants.TABLE_CATEGORIES + "  WHERE " +
                 Category.CATEGORY_ID + " = " + id + ";  ";
 
-        return DBUtil.getInstance().statement(query);
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            return preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+            return -1;
+        }
+
+
     }
 
     //check if the category exist
@@ -100,6 +109,13 @@ public class CategoriesDB {
         String query = "SELECT COUNT(" + Category.CATEGORY_NAME + ") FROM " + DBConstants.TABLE_CATEGORIES +
                 " WHERE " + Category.CATEGORY_NAME + " = '" + categoryName + "'";
 
-        return DBUtil.getInstance().counter(query);
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            return preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+            return -1;
+        }
     }
 }

@@ -3,7 +3,6 @@ package com.inventorymanagement.java.dao;
 
 import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.DBConstants;
-import com.inventorymanagement.java.utils.DBUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -72,7 +71,14 @@ public class UsersDB {
         String query = "SELECT COUNT(" + User.USER_EMAIL + ") FROM " + DBConstants.TABLE_USERS +
                 " WHERE " + User.USER_EMAIL + " = '" + email + "'";
 
-        return DBUtil.getInstance().counter(query);
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            return preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+            return -1;
+        }
     }
 
     public Boolean authenticate(String email, String password) throws SQLException {
