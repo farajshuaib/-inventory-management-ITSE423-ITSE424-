@@ -66,28 +66,28 @@ public class AuthenticationController {
     }
 
     public void loginBtnAction(MouseEvent event) throws SQLException {
-//        if (loginEmailBtn.getText().isEmpty() || loginEmailBtn.getText().trim().isEmpty()) {
-//            Alerts.jfxAlert("Error", "Email Field cannot be empty");
-//            loginFail();
-//            return;
-//        }
-//
-//        if (!Validators.isValidEmail(loginEmailBtn.getText())) {
-//            Alerts.jfxAlert("Error", "Invalid email address");
-//            loginFail();
-//            return;
-//        }
-//
-//
-//        if (!usersDB.authenticate(loginEmailBtn.getText(), loginPasswordField.getText())) {
-//            Alerts.jfxAlert("Error", "Email or password incorrect");
-//            return;
-//        }
-//
-//
-//        ShowTrayNotification
-//                .trayNotification("Login in success", "Welcome back",
-//                        AnimationType.SLIDE, NotificationType.SUCCESS);
+        if (loginEmailBtn.getText().isEmpty() || loginEmailBtn.getText().trim().isEmpty()) {
+            Alerts.jfxAlert("Error", "Email Field cannot be empty");
+            loginFail();
+            return;
+        }
+
+        if (!Validators.isValidEmail(loginEmailBtn.getText())) {
+            Alerts.jfxAlert("Error", "Invalid email address");
+            loginFail();
+            return;
+        }
+
+
+        if (!usersDB.authenticate(loginEmailBtn.getText(), loginPasswordField.getText())) {
+            Alerts.jfxAlert("Error", "Email or password incorrect");
+            return;
+        }
+
+
+        ShowTrayNotification
+                .trayNotification("Login in success", "Welcome back",
+                        AnimationType.SLIDE, NotificationType.SUCCESS);
 
         Parent pane = null;
         try {
