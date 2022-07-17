@@ -11,10 +11,25 @@
     <children>
         <AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="604.0" prefWidth="954.0">
             <children>
+<!--                nav bar-->
                 <AnchorPane layoutY="81.0" prefHeight="534.0" prefWidth="250.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="571.0" AnchorPane.topAnchor="70.0">
                     <children>
                   <VBox>
                      <children>
+                         <Button focusTraversable="false" graphicTextGap="30.0" onMouseClicked="#homeBtnEvent"
+                                 prefHeight="58.0" prefWidth="255.0" styleClass="nav_button"
+                                 stylesheets="@../styles/styles.css" text="Home" mnemonicParsing="false"  >
+                             <font>
+                                 <Font name="Calibri Light" size="22.0"/>
+                             </font>
+                             <graphic>
+                                 <ImageView fitHeight="37.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                                     <image>
+                                         <Image url="@../images/home.png"/>
+                                     </image>
+                                 </ImageView>
+                             </graphic>
+                         </Button>
                         <Button focusTraversable="false" graphicTextGap="30.0" onMouseClicked="#productBtnEvent"
                                 prefHeight="58.0" prefWidth="255.0" styleClass="nav_button"
                                 stylesheets="@../styles/styles.css" text="Products" mnemonicParsing="false"  >
@@ -61,9 +76,12 @@
                   </VBox>
                     </children>
                 </AnchorPane>
+
                 <AnchorPane AnchorPane.bottomAnchor="546.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <fx:include source="top.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                 </AnchorPane>
+
+
                 <AnchorPane layoutX="262.0" layoutY="68.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="262.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="68.0">
                     <children>
                         <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="501.0" prefWidth="669.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

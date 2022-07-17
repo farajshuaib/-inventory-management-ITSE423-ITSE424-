@@ -97,3 +97,7 @@
 .radio-btn {
     -jfx-selected-color: #073757;
 }
+
+.blaaa {
+    --fx-background-color: red;
+}

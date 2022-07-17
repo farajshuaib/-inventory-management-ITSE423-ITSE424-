@@ -36,7 +36,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainController {
+public class ProductController {
     double xOffset;
     double yOffset;
     List<Product> getProductsList = null;
@@ -88,6 +88,7 @@ public class MainController {
         // event for refresh
         productList.removeAll(productList);
         getProductsList = productsDB.getAllProducts();
+
         getProductsList.forEach(product -> {
             productList.add(new RecursiveProduct(String.valueOf(product.getId()), product.getProductName(),
                     String.valueOf(product.getPrice()), product.getProductDescription(),
@@ -500,7 +501,7 @@ public class MainController {
     public void productBtnEvent(MouseEvent mouseEvent) {
         Parent parent = null;
         try {
-            parent = FXMLLoader.load(getClass().getResource(Constants.MAIN_FXML_DIR));
+            parent = FXMLLoader.load(getClass().getResource(Constants.PRODUCT_FXML_DIR));
             Stage stage = (Stage) mainPane.getScene().getWindow();
             stage.setScene(MyScene.getScene(parent));
         } catch (IOException e) {
@@ -536,7 +537,20 @@ public class MainController {
         }
     }
 
-    class RecursiveProduct extends RecursiveTreeObject<RecursiveProduct> {
+    public void homeBtnEvent(MouseEvent mouseEvent) {
+        Parent parent = null;
+        try {
+            parent = FXMLLoader.load(getClass().getResource(Constants.HOME_FXML_DIR));
+            Stage stage = (Stage) mainPane.getScene().getWindow();
+            stage.setScene(MyScene.getScene(parent));
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    static class RecursiveProduct extends RecursiveTreeObject<RecursiveProduct> {
         private StringProperty id, productName, productPrice, productDescription, noInStock, productCategory;
 
         public RecursiveProduct(String id, String productName, String productPrice, String productDescription, String noInStock, String productCategory) {

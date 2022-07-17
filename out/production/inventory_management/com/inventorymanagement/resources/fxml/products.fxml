@@ -9,7 +9,7 @@
 <?import javafx.scene.text.*?>
 
 
-<StackPane fx:id="primaryPane" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventorymanagement.java.controllers.MainController">
+<StackPane fx:id="primaryPane" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventorymanagement.java.controllers.ProductController">
     <children>
         <AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="604.0" prefWidth="954.0" StackPane.alignment="CENTER">
             <children>
@@ -18,6 +18,20 @@
                     <children>
                         <VBox>
                             <children>
+                                <Button focusTraversable="false" graphicTextGap="30.0" onMouseClicked="#homeBtnEvent"
+                                        prefHeight="58.0" prefWidth="255.0" styleClass="nav_button"
+                                        stylesheets="@../styles/styles.css" text="Home" mnemonicParsing="false"  >
+                                    <font>
+                                        <Font name="Calibri Light" size="22.0"/>
+                                    </font>
+                                    <graphic>
+                                        <ImageView fitHeight="37.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../images/home.png"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
                                 <Button focusTraversable="false" graphicTextGap="30.0" mnemonicParsing="false" onMouseClicked="#productBtnEvent" prefHeight="58.0" prefWidth="255.0" styleClass="nav_button_active" stylesheets="@../styles/styles.css" text="Products">
                                     <font>
                                         <Font name="Calibri Light" size="22.0" />

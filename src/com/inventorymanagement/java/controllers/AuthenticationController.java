@@ -26,7 +26,6 @@ import tray.animations.AnimationType;
 import tray.notification.NotificationType;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class AuthenticationController {
     double xOffset;
@@ -65,23 +64,46 @@ public class AuthenticationController {
         setStageDraggable();
     }
 
-    public void loginBtnAction(MouseEvent event) throws SQLException {
+    private boolean validateValues(){
+        boolean isValidUser = false;
         if (loginEmailBtn.getText().isEmpty() || loginEmailBtn.getText().trim().isEmpty()) {
             Alerts.jfxAlert("Error", "Email Field cannot be empty");
-            loginFail();
-            return;
+            return false;
         }
 
-        if (!Validators.isValidEmail(loginEmailBtn.getText())) {
+        if (loginPasswordField.getText().isEmpty() || loginPasswordField.getText().trim().isEmpty()) {
+            Alerts.jfxAlert("Error", "Password Field cannot be empty");
+            return false;
+        }
+
+        if ( !Validators.isValidEmail(loginEmailBtn.getText())) {
             Alerts.jfxAlert("Error", "Invalid email address");
-            loginFail();
-            return;
+            return false;
+        }
+
+        try {
+            isValidUser = usersDB.authenticate(loginEmailBtn.getText(), loginPasswordField.getText());
+        } catch (Exception e){
+            Alerts.jfxAlert("Error", "Email or password incorrect");
         }
 
 
-        if (!usersDB.authenticate(loginEmailBtn.getText(), loginPasswordField.getText())) {
+        if (!isValidUser) {
             Alerts.jfxAlert("Error", "Email or password incorrect");
-            return;
+            return false;
+        }
+
+        return  true;
+    }
+
+    public void loginBtnAction(MouseEvent event)  {
+        Parent pane = null;
+
+        if(Constants.DEV_MODE != "TEST"){
+            if(!validateValues()){
+                loginFail();
+                return;
+            }
         }
 
 
@@ -89,9 +111,9 @@ public class AuthenticationController {
                 .trayNotification("Login in success", "Welcome back",
                         AnimationType.SLIDE, NotificationType.SUCCESS);
 
-        Parent pane = null;
+
         try {
-            pane = FXMLLoader.load(getClass().getResource(Constants.MAIN_FXML_DIR));
+            pane = FXMLLoader.load(getClass().getResource(Constants.HOME_FXML_DIR));
         } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

@@ -133,7 +133,7 @@ public class HistoryController {
     public void productBtnEvent(MouseEvent mouseEvent) {
         Parent parent = null;
         try {
-            parent = FXMLLoader.load(getClass().getResource(Constants.MAIN_FXML_DIR));
+            parent = FXMLLoader.load(getClass().getResource(Constants.PRODUCT_FXML_DIR));
             Stage stage = (Stage) mainPane.getScene().getWindow();
             stage.setScene(MyScene.getScene(parent));
         } catch (IOException e) {
@@ -168,6 +168,19 @@ public class HistoryController {
             e.printStackTrace();
         }
     }
+
+    public void homeBtnEvent(MouseEvent mouseEvent) {
+        Parent parent = null;
+        try {
+            parent = FXMLLoader.load(getClass().getResource(Constants.HOME_FXML_DIR));
+            Stage stage = (Stage) mainPane.getScene().getWindow();
+            stage.setScene(MyScene.getScene(parent));
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 
     class RecursiveHistory extends RecursiveTreeObject<RecursiveHistory> {
         private StringProperty id, productName, productPrice, productDescription, productCategory, action, date;
