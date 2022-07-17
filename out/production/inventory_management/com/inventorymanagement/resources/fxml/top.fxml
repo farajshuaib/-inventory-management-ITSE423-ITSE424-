@@ -10,9 +10,9 @@
             fx:controller="com.inventorymanagement.java.controllers.TopMenuController">
     <children>
         <ImageView fitHeight="37.0" fitWidth="32.0" layoutX="16.0" layoutY="10.0" pickOnBounds="true"
-                   preserveRatio="true" rotate="-137.0" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="10.0">
+                   preserveRatio="true" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="10.0">
             <image>
-                <Image url="@../images/aoo_icon.ico"/>
+                <Image url="@../images/home.png"/>
             </image>
         </ImageView>
         <Label layoutX="61.0" layoutY="10.0" prefHeight="29.0" prefWidth="109.0" styleClass="top-banner"
@@ -21,19 +21,11 @@
                 <Font name="Bauhaus 93" size="23.0"/>
             </font>
         </Label>
-        <ImageView fx:id="refresh_btn" fitHeight="25.0" fitWidth="18.0" layoutX="652.0" layoutY="11.0"
-                   pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="101.0" AnchorPane.topAnchor="11.0">
-            <image>
-                <Image url="@../images/aoo_icon.ico"/>
-            </image>
-            <cursor>
-                <Cursor fx:constant="HAND"/>
-            </cursor>
-        </ImageView>
+
         <ImageView fx:id="minimize_btn" fitHeight="28.0" fitWidth="20.0" layoutX="861.0" layoutY="9.0"
                    pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="73.0" AnchorPane.topAnchor="9.0">
             <image>
-                <Image url="@../images/aoo_icon.ico"/>
+                <Image url="@../images/minus.png"/>
             </image>
             <cursor>
                 <Cursor fx:constant="HAND"/>
@@ -42,7 +34,7 @@
         <ImageView fx:id="maximize_btn" fitHeight="29.0" fitWidth="20.0" layoutX="893.0" layoutY="10.0"
                    pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="10.0">
             <image>
-                <Image url="@../images/icons8_maximize_button_64px_2.png"/>
+                <Image url="@../images/fullscreen.png"/>
             </image>
             <cursor>
                 <Cursor fx:constant="HAND"/>
@@ -51,7 +43,7 @@
         <ImageView fx:id="exit_btn" fitHeight="29.0" fitWidth="20.0" layoutX="731.0" layoutY="10.0" pickOnBounds="true"
                    preserveRatio="true" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="10.0">
             <image>
-                <Image url="@../images/icons8_delete_60px.png"/>
+                <Image url="@../images/x.png"/>
             </image>
             <cursor>
                 <Cursor fx:constant="HAND"/>
@@ -60,7 +52,7 @@
         <ImageView fx:id="log_out_btn" fitHeight="29.0" fitWidth="25.0" layoutX="622.0" layoutY="7.0"
                    pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="7.0">
             <image>
-                <Image url="@../images/icons8_logout_rounded_up_32px.png"/>
+                <Image url="@../images/logout.png"/>
             </image>
             <cursor>
                 <Cursor fx:constant="HAND"/>

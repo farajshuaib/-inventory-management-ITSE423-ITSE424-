@@ -27,8 +27,7 @@ public class TopMenuController {
     private ImageView maximize_btn;
     @FXML
     private ImageView minimize_btn;
-    @FXML
-    private ImageView refresh_btn;
+
     @FXML
     private AnchorPane mainPane;
 
@@ -66,6 +65,8 @@ public class TopMenuController {
 
         });
         minimize_btn.setOnMouseClicked(event -> Launcher.stage.setIconified(true));
+
+
         log_out_btn.setOnMouseClicked(event -> {
 
             Parent pane = null;

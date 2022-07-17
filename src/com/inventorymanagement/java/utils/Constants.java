@@ -8,7 +8,7 @@ public final class Constants {
 
     public static String MAIN_FXML_DIR = "/com/inventorymanagement/resources/fxml/main.fxml";
     // icon
-    public static final String STAGE_ICON = "/com/inventorymanagement/resources/images/aoo_icon.ico";
+    public static final String STAGE_ICON = "/com/inventorymanagement/resources/images/home.png";
     public static String LOGIN_FXML_DIR = "/com/inventorymanagement/resources/fxml/login.fxml";
     public static String ISSUE_FXML_DIR = "/com/inventorymanagement/resources/fxml/issues.fxml";
     public static String HISTORY_FXML_DIR = "/com/inventorymanagement/resources/fxml/history.fxml";

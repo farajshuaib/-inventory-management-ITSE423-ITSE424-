@@ -43,7 +43,7 @@ public class AuthenticationController {
     @FXML
     private TextField emailField;
     @FXML
-    private TextField passwordField;
+    private PasswordField passwordField;
     @FXML
     private JFXRadioButton maleRadio;
     @FXML
