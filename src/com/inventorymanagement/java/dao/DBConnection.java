@@ -25,7 +25,7 @@ public class DBConnection {
         return instance;
     }
 
-    public DBConnection() {
+    private DBConnection() {
         createTables();
     }
 

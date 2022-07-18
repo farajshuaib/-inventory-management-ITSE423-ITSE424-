@@ -25,7 +25,7 @@ public class CategoriesDB {
 
     // get All categories
     public List<Category> getAllCategories() {
-        String query = "SELECT * FROM " + DBConstants.TABLE_CATEGORIES;
+        String query = "SELECT * FROM " + DBConstants.TABLE_CATEGORIES + " ORDER BY id DESC ";
         List<Category> categoryList = new ArrayList<>();
 
         Statement statement = null;

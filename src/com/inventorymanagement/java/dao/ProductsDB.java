@@ -25,7 +25,7 @@ public class ProductsDB {
 
     // get All products
     public List<Product> getAllProducts() {
-        String query = "SELECT * FROM " + DBConstants.TABLE_PRODUCTS;
+        String query = "SELECT * FROM " + DBConstants.TABLE_PRODUCTS + " ORDER BY id DESC ";
         List<Product> productList = new ArrayList<>();
 
         Statement statement = null;
