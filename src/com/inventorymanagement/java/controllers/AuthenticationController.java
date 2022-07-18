@@ -27,7 +27,7 @@ import tray.notification.NotificationType;
 
 import java.io.IOException;
 
-public class AuthenticationController {
+public class AuthenticationController  {
     double xOffset;
     double yOffset;
     UsersDB usersDB = new UsersDB();

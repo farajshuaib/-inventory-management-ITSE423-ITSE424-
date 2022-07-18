@@ -1,7 +1,10 @@
 
 package com.inventorymanagement.java.dao;
 
-import com.inventorymanagement.java.models.*;
+import com.inventorymanagement.java.models.Category;
+import com.inventorymanagement.java.models.Product;
+import com.inventorymanagement.java.models.Record;
+import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Alerts;
 import com.inventorymanagement.java.utils.DBConstants;
 import com.inventorymanagement.java.utils.configs.db.DBDataSource;

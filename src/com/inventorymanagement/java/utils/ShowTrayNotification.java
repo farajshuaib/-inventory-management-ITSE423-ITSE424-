@@ -1,14 +1,17 @@
 
 package com.inventorymanagement.java.utils;
 
+import com.inventorymanagement.java.utils.interfaces.Observer;
 import javafx.util.Duration;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
 import tray.notification.TrayNotification;
 
-public class ShowTrayNotification {
+
+public class ShowTrayNotification implements Observer {
     public static TrayNotification trayNotification(
-            String title, String message,
+            String title,
+            String message,
             AnimationType animationType,
             NotificationType notificationType
     ) {
