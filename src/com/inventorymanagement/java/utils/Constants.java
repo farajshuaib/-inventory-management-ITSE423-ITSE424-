@@ -5,7 +5,7 @@ public final class Constants {
 
     private Constants(){}
 
-    public static String DEV_MODE = "PROD";
+    public static String DEV_MODE = "PROD"; // || TEST
 
 
 
