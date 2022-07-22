@@ -5,7 +5,15 @@ public final class Constants {
 
     private Constants(){}
 
-    public static String DEV_MODE = "PROD"; // || TEST
+    public static String DEV_MODE = "TEST"; // || TEST
+
+
+
+    //tables name
+    public static String TABLE_USERS = "users";
+    public static String TABLE_PRODUCTS = "products";
+    public static String TABLE_CATEGORIES = "categories";
+    public static String TABLE_HISTORY = "records";
 
 
 

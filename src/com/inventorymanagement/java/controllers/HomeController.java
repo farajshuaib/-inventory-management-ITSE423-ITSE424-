@@ -1,7 +1,8 @@
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao.CategoriesDB;
-import com.inventorymanagement.java.dao.ProductsDB;
+import com.inventorymanagement.java.dao.components.CategoriesDB;
+import com.inventorymanagement.java.dao.Main_DAO;
+import com.inventorymanagement.java.dao.components.ProductsDB;
 import com.inventorymanagement.java.main.Launcher;
 import com.inventorymanagement.java.models.Category;
 import com.inventorymanagement.java.models.Product;
@@ -23,8 +24,8 @@ import java.util.List;
 
 public class HomeController {
 
-    CategoriesDB categoriesDB = new CategoriesDB();
-    ProductsDB productsDB = new ProductsDB();
+    ProductsDB productsDB = Main_DAO.getInstance().products();
+    CategoriesDB categoriesDB = Main_DAO.getInstance().Categories();
     List<Category> categoryList = null;
     List<Product> productsList = null;
     double xOffset;
@@ -40,8 +41,8 @@ public class HomeController {
 
     public void initialize() {
         // fetching the list from database
-        categoryList = categoriesDB.getAllCategories();
-        productsList = productsDB.getAllProducts();
+        categoryList = categoriesDB.getAll();
+        productsList = productsDB.getAll();
 
         setChartContent();
 
@@ -54,7 +55,8 @@ public class HomeController {
 
     public void refreshAction() {
         // event for refresh
-        categoryList = categoriesDB.getAllCategories();
+        categoryList = categoriesDB.getAll();
+        productsList = productsDB.getAll();
         setChartContent();
     }
 

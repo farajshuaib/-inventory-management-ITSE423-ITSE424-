@@ -1,8 +1,9 @@
 
-package com.inventorymanagement.java.dao;
+package com.inventorymanagement.java.dao.components;
 
 import com.inventorymanagement.java.models.Category;
-import com.inventorymanagement.java.utils.DBConstants;
+import com.inventorymanagement.java.utils.Constants;
+import com.inventorymanagement.java.utils.DBConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,21 +12,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CategoriesDB {
-    Statement statement = null;
-    PreparedStatement preparedStatement = null;
-    private Connection connection = DBConnection.getInstance().connection();
 
-    public CategoriesDB() {
-        try {
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
-        }
-    }
+    private String TableName = Constants.TABLE_CATEGORIES;
+
+    private PreparedStatement preparedStatement = null;
+    private Connection connection = DBConnection.getInstance().getConnection();
+
+
+    public CategoriesDB(){}
+
 
     // get All categories
-    public List<Category> getAllCategories() {
-        String query = "SELECT * FROM " + DBConstants.TABLE_CATEGORIES + " ORDER BY id DESC ";
+    public List<Category> getAll() {
+        String query = "SELECT * FROM " + TableName + " ORDER BY id DESC ";
         List<Category> categoryList = new ArrayList<>();
 
         Statement statement = null;
@@ -51,8 +50,9 @@ public class CategoriesDB {
     }
 
     // add category;
-    public int addCategory(Category category) {
-        String query = "INSERT INTO " + DBConstants.TABLE_CATEGORIES + " VALUES(" +
+
+    public int create(Category category) {
+        String query = "INSERT INTO " + TableName + " VALUES(" +
                 "?, ?, ?)";
         try {
             preparedStatement = connection.prepareStatement(query);
@@ -68,8 +68,8 @@ public class CategoriesDB {
     }
 
     //edit category
-    public int editCategory(int id, String categoryName, String categoryDescription) {
-        String query = "update " + DBConstants.TABLE_CATEGORIES + " set " + Category.CATEGORY_NAME + " =?, " +
+    public int edit(int id, String categoryName, String categoryDescription) {
+        String query = "update " + TableName + " set " + Category.CATEGORY_NAME + " =?, " +
                 Category.CATEGORY_DESCRIPTION + " =? " +
                 " where id=?";
         try {
@@ -87,8 +87,8 @@ public class CategoriesDB {
     }
 
     // delete a category
-    public int deleteCategory(int id) {
-        String query = "DELETE FROM " + DBConstants.TABLE_CATEGORIES + "  WHERE " +
+    public int delete(int id) {
+        String query = "DELETE FROM " + TableName + "  WHERE " +
                 Category.CATEGORY_ID + " = " + id + ";  ";
 
 
@@ -102,20 +102,5 @@ public class CategoriesDB {
         }
 
 
-    }
-
-    //check if the category exist
-    public int categoryExist(String categoryName) {
-        String query = "SELECT COUNT(" + Category.CATEGORY_NAME + ") FROM " + DBConstants.TABLE_CATEGORIES +
-                " WHERE " + Category.CATEGORY_NAME + " = '" + categoryName + "'";
-
-        try {
-            preparedStatement = connection.prepareStatement(query);
-            return preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
-            return -1;
-        }
     }
 }

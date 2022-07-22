@@ -1,7 +1,8 @@
 
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao.CategoriesDB;
+import com.inventorymanagement.java.dao.components.CategoriesDB;
+import com.inventorymanagement.java.dao.Main_DAO;
 import com.inventorymanagement.java.main.Launcher;
 import com.inventorymanagement.java.models.Category;
 import com.inventorymanagement.java.utils.Alerts;
@@ -31,11 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryController {
+    CategoriesDB categoriesDB = Main_DAO.getInstance().Categories();
     @FXML
     private StackPane primaryPane;
     List<Category> getCategoryList = null;
     ObservableList<RecursiveCategory> categoryList = null;
-    CategoriesDB categoriesDB = new CategoriesDB();
     @FXML
     private MenuItem menuEditBtn;
     @FXML
@@ -67,7 +68,7 @@ public class CategoryController {
         categoryList = FXCollections.observableArrayList();
 
         // fetching the list from database
-        getCategoryList = categoriesDB.getAllCategories();
+        getCategoryList = categoriesDB.getAll();
 
         // setting table objects
         setTable();
@@ -122,7 +123,7 @@ public class CategoryController {
 
                 Category category = new Category(0, categoryNameField.getText(), categoryDescriptionField.getText());
 
-                if (categoriesDB.addCategory(category) != 1) {
+                if (categoriesDB.create(category) != 1) {
                     Alerts.jfxAlert("Error", "An error occurred");
                     return;
                 }
@@ -198,7 +199,7 @@ public class CategoryController {
                     return;
                 }
 
-                if (categoriesDB.editCategory(Integer.parseInt(categoryIdField.getText()),
+                if (categoriesDB.edit(Integer.parseInt(categoryIdField.getText()),
                         categoryNameField.getText(), categoryDescriptionField.getText()) != 1) {
                     Alerts.jfxAlert("Error", "An error occurred");
                     return;
@@ -254,7 +255,7 @@ public class CategoryController {
             saveBtn.setOnAction(event1 -> {
 
 
-                if (categoriesDB.deleteCategory(categoryId) != 1) {
+                if (categoriesDB.delete(categoryId) != 1) {
                     Alerts.jfxAlert("Error", "An error occurred");
                     return;
                 }
@@ -278,7 +279,7 @@ public class CategoryController {
     public void refreshAction() {
         // event for refresh
         categoryList.removeAll(categoryList);
-        getCategoryList = categoriesDB.getAllCategories();
+        getCategoryList = categoriesDB.getAll();
         getCategoryList.forEach(categories -> {
             categoryList.add(new RecursiveCategory(String.valueOf(categories.getId()), categories.getCategoryName(),
                     categories.getCategoryDescription()));

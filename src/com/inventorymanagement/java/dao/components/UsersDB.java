@@ -1,8 +1,9 @@
 
-package com.inventorymanagement.java.dao;
+package com.inventorymanagement.java.dao.components;
 
 import com.inventorymanagement.java.models.User;
-import com.inventorymanagement.java.utils.DBConstants;
+import com.inventorymanagement.java.utils.Constants;
+import com.inventorymanagement.java.utils.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,21 +13,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UsersDB {
-    Statement statement = null;
-    PreparedStatement preparedStatement = null;
-    private Connection connection = DBConnection.getInstance().connection();
+    private String TableName = Constants.TABLE_USERS;
+    private PreparedStatement preparedStatement = null;
+    private Connection connection = DBConnection.getInstance().getConnection();
 
-    public UsersDB() {
-        try {
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
-        }
+    public UsersDB(){
     }
 
     // adding new user
-    public int addUser(User user) {
-        String query = "INSERT INTO " + DBConstants.TABLE_USERS + " VALUES(" +
+    public int create(User user) {
+        String query = "INSERT INTO " + TableName + " VALUES(" +
                 "?, ?, ?, ?, ?, ?, ?)";
         try {
             preparedStatement = connection.prepareStatement(query);
@@ -46,8 +42,8 @@ public class UsersDB {
     }
 
     // editing user
-    public int editUser(int id, String firstName, String lastName, String gender, String number) {
-        String query = "update " + DBConstants.TABLE_USERS + " set " + User.USER_FIRST_NAME + " =?, " +
+    public int edit(int id, String firstName, String lastName, String gender, String number) {
+        String query = "update " + TableName + " set " + User.USER_FIRST_NAME + " =?, " +
                 User.USER_LAST_NAME + " =?, " + User.USER_GENDER + "=?, " + User.USER_NUMBER + " =? " +
                 " where id=?";
         try {
@@ -68,7 +64,7 @@ public class UsersDB {
 
     //check if the user exist
     public int userExist(String email) {
-        String query = "SELECT COUNT(" + User.USER_EMAIL + ") FROM " + DBConstants.TABLE_USERS +
+        String query = "SELECT COUNT(" + User.USER_EMAIL + ") FROM " + TableName +
                 " WHERE " + User.USER_EMAIL + " = '" + email + "'";
 
         try {
@@ -82,7 +78,7 @@ public class UsersDB {
     }
 
     public Boolean authenticate(String email, String password) throws SQLException {
-        String query = "SELECT * FROM " + DBConstants.TABLE_USERS + " WHERE email = '" + email + "' and " +
+        String query = "SELECT * FROM " + TableName + " WHERE email = '" + email + "' and " +
                 "password = '" + password + "'";
 
         Statement statement = connection.createStatement();

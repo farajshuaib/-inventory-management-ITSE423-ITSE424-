@@ -1,7 +1,7 @@
 
 package com.inventorymanagement.java.models;
 
-public class Record {
+public class History {
     public final static String RECORD_ID = "id";
     public final static String RECORD_PRODUCT_NAME = "product_name";
     public final static String RECORD_PRICE = "product_price";
@@ -13,10 +13,10 @@ public class Record {
     private double productPrice;
     private String productName, productCategory, description, action, date;
 
-    public Record() {
+    public History() {
     }
 
-    public Record(
+    public History(
             int id, double productPrice,
             String productName, String productCategory,
             String description, String action, String date
