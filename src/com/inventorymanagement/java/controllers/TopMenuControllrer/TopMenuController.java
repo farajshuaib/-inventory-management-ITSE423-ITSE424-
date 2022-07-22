@@ -1,6 +1,10 @@
 
-package com.inventorymanagement.java.controllers;
+package com.inventorymanagement.java.controllers.TopMenuControllrer;
 
+import com.inventorymanagement.java.controllers.TopMenuControllrer.commands.ButtonPressedEvent;
+import com.inventorymanagement.java.controllers.TopMenuControllrer.commands.LogoutEvent;
+import com.inventorymanagement.java.controllers.TopMenuControllrer.commands.MaximizeEvent;
+import com.inventorymanagement.java.controllers.TopMenuControllrer.commands.MinimizeEvent;
 import com.inventorymanagement.java.main.Launcher;
 import com.inventorymanagement.java.utils.Constants;
 import javafx.application.Platform;
@@ -54,39 +58,24 @@ public class TopMenuController {
     }
 
     private void mouseEvents() {
+
         exit_btn.setOnMouseClicked(event -> Platform.exit());
+
         maximize_btn.setOnMouseClicked(event -> {
-            boolean isFullScreen = false;
-            if (Launcher.stage.isFullScreen()) {
-                Launcher.stage.setFullScreen(false);
-            } else {
-                Launcher.stage.setFullScreen(true);
-            }
+
+            onButtonPressed(new MaximizeEvent());
 
         });
-        minimize_btn.setOnMouseClicked(event -> Launcher.stage.setIconified(true));
 
+        minimize_btn.setOnMouseClicked(event -> onButtonPressed(new MinimizeEvent()));
 
         log_out_btn.setOnMouseClicked(event -> {
 
-            Parent pane = null;
-            try {
-                pane = FXMLLoader.load(getClass().getResource(Constants.AUTH_FXML_DIR));
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-                e.printStackTrace();
-            }
+            onButtonPressed(new LogoutEvent(event));
 
-            Node node = (Node) event.getSource();
-
-            Stage stage = (Stage) node.getScene().getWindow();
-
-            stage.close();
-            Scene scene = new Scene(pane);
-            scene.getStylesheets().add(getClass().getResource(Constants.STYLESHEET_DIR).toExternalForm());
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
         });
     }
-}
+
+    private  void onButtonPressed(ButtonPressedEvent pressedEvent){
+        pressedEvent.onExecute();
+    }}
