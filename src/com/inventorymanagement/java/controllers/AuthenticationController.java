@@ -7,7 +7,9 @@ import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Alerts;
 import com.inventorymanagement.java.utils.Constants;
 import com.inventorymanagement.java.utils.ShowTrayNotification;
-import com.inventorymanagement.java.utils.Validators;
+import com.inventorymanagement.java.utils.validators.EmailValidation;
+import com.inventorymanagement.java.utils.validators.FacadeValidator;
+import com.inventorymanagement.java.utils.validators.UserNameValidation;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import javafx.fxml.FXML;
@@ -26,10 +28,12 @@ import tray.animations.AnimationType;
 import tray.notification.NotificationType;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class AuthenticationController  {
     double xOffset;
     double yOffset;
+    FacadeValidator validator;
     UsersDB usersDB = new UsersDB();
     @FXML
     private StackPane primaryPane;
@@ -60,6 +64,7 @@ public class AuthenticationController  {
 
     public void initialize() {
 
+        validator = new FacadeValidator(new EmailValidation(),new UserNameValidation());
         //setting stage draggable
         setStageDraggable();
     }
@@ -76,7 +81,7 @@ public class AuthenticationController  {
             return false;
         }
 
-        if ( !Validators.isValidEmail(loginEmailBtn.getText())) {
+        if ( !validator.isEmailValid(loginEmailBtn.getText())) {
             Alerts.jfxAlert("Error", "Invalid email address");
             return false;
         }
@@ -99,7 +104,7 @@ public class AuthenticationController  {
     public void loginBtnAction(MouseEvent event)  {
         Parent pane = null;
 
-        if(Constants.DEV_MODE != "TEST"){
+        if(!Constants.DEV_MODE.equals("TEST")){
             if(!validateValues()){
                 loginFail();
                 return;
@@ -113,7 +118,7 @@ public class AuthenticationController  {
 
 
         try {
-            pane = FXMLLoader.load(getClass().getResource(Constants.HOME_FXML_DIR));
+            pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(Constants.HOME_FXML_DIR)));
         } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -125,7 +130,7 @@ public class AuthenticationController  {
 
         stage.close();
         Scene scene = new Scene(pane);
-        scene.getStylesheets().add(getClass().getResource(Constants.STYLESHEET_DIR).toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(Constants.STYLESHEET_DIR)).toExternalForm());
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
@@ -150,7 +155,7 @@ public class AuthenticationController  {
             return;
         }
 
-        if (!Validators.isValidEmail(emailField.getText())) {
+        if (!validator.isEmailValid(emailField.getText())) {
             Alerts.jfxAlert("Error", "Invalid email address");
             registrationFail();
             return;

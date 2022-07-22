@@ -11,7 +11,9 @@ import com.inventorymanagement.java.models.Record;
 import com.inventorymanagement.java.utils.Alerts;
 import com.inventorymanagement.java.utils.Constants;
 import com.inventorymanagement.java.utils.MyScene;
-import com.inventorymanagement.java.utils.Validators;
+import com.inventorymanagement.java.utils.validators.EmailValidation;
+import com.inventorymanagement.java.utils.validators.FacadeValidator;
+import com.inventorymanagement.java.utils.validators.UserNameValidation;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleStringProperty;
@@ -31,6 +33,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import javax.xml.validation.Validator;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -44,6 +47,8 @@ public class ProductController {
     ProductsDB productsDB = new ProductsDB();
     CategoriesDB categoriesDB = new CategoriesDB();
     RecordsDB recordsDB = new RecordsDB();
+    FacadeValidator validator;
+
     @FXML
     private MenuItem menuEditBtn;
     @FXML
@@ -75,6 +80,8 @@ public class ProductController {
     public void initialize() {
         productList = FXCollections.observableArrayList();
         getProductsList = productsDB.getAllProducts();
+
+        validator = new FacadeValidator(new EmailValidation(), new UserNameValidation());
 
         // setting btn events
         btnEvents();
@@ -171,12 +178,12 @@ public class ProductController {
                     return;
                 }
 
-                if (!Validators.isNumber(numberInStockField.getText())) {
+                if (!validator.isNumber(numberInStockField.getText())) {
                     Alerts.jfxAlert("Error", "Number In Field Must Be a Number");
                     return;
                 }
 
-                if (!Validators.isDouble(productPriceField.getText())) {
+                if (!validator.isDouble(productPriceField.getText())) {
                     Alerts.jfxAlert("Error", "Product Price Field Must Be a Number");
                     return;
                 }
@@ -327,12 +334,12 @@ public class ProductController {
                     return;
                 }
 
-                if (!Validators.isNumber(numberInStockField.getText())) {
+                if (!validator.isNumber(numberInStockField.getText())) {
                     Alerts.jfxAlert("Error", "Number In Field Must Be a Number");
                     return;
                 }
 
-                if (!Validators.isDouble(productPriceField.getText())) {
+                if (!validator.isDouble(productPriceField.getText())) {
                     Alerts.jfxAlert("Error", "Product Price Field Must Be a Number");
                     return;
                 }
