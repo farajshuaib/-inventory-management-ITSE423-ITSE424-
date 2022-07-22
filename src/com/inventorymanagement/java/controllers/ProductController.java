@@ -1,13 +1,14 @@
 
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao.CategoriesDB;
-import com.inventorymanagement.java.dao.ProductsDB;
-import com.inventorymanagement.java.dao.RecordsDB;
+import com.inventorymanagement.java.dao.components.CategoriesDB;
+import com.inventorymanagement.java.dao.Main_DAO;
+import com.inventorymanagement.java.dao.components.ProductsDB;
+import com.inventorymanagement.java.dao.components.HistoryDB;
 import com.inventorymanagement.java.main.Launcher;
 import com.inventorymanagement.java.models.Category;
+import com.inventorymanagement.java.models.History;
 import com.inventorymanagement.java.models.Product;
-import com.inventorymanagement.java.models.Record;
 import com.inventorymanagement.java.utils.Alerts;
 import com.inventorymanagement.java.utils.Constants;
 import com.inventorymanagement.java.utils.MyScene;
@@ -40,15 +41,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductController {
+    ProductsDB productsDB = Main_DAO.getInstance().products();
+    CategoriesDB categoriesDB = Main_DAO.getInstance().Categories();
+    HistoryDB historyDB =  Main_DAO.getInstance().history();
     double xOffset;
     double yOffset;
     List<Product> getProductsList = null;
     ObservableList<RecursiveProduct> productList = null;
-    ProductsDB productsDB = new ProductsDB();
-    CategoriesDB categoriesDB = new CategoriesDB();
-    RecordsDB recordsDB = new RecordsDB();
     FacadeValidator validator;
-
     @FXML
     private MenuItem menuEditBtn;
     @FXML
@@ -79,7 +79,7 @@ public class ProductController {
 
     public void initialize() {
         productList = FXCollections.observableArrayList();
-        getProductsList = productsDB.getAllProducts();
+        getProductsList = productsDB.getAll();
 
         validator = new FacadeValidator(new EmailValidation(), new UserNameValidation());
 
@@ -94,7 +94,7 @@ public class ProductController {
     public void refreshAction() {
         // event for refresh
         productList.removeAll(productList);
-        getProductsList = productsDB.getAllProducts();
+        getProductsList = productsDB.getAll();
 
         getProductsList.forEach(product -> {
             productList.add(new RecursiveProduct(String.valueOf(product.getId()), product.getProductName(),
@@ -141,7 +141,7 @@ public class ProductController {
             categoryComboList.setPrefWidth(400.0);
             categoryComboList.setLabelFloat(true);
 
-            ObservableList<Category> departmentsList = FXCollections.observableArrayList(categoriesDB.getAllCategories());
+            ObservableList<Category> departmentsList = FXCollections.observableArrayList(categoriesDB.getAll());
             departmentsList.forEach(category -> {
                 categoryComboList.getItems().add(category.getCategoryName());
             });
@@ -193,7 +193,7 @@ public class ProductController {
                     return;
                 }
 
-                Record record = new Record(
+                History history = new History(
                         0,
                         Double.parseDouble(productPriceField.getText()),
                         productNameField.getText(),
@@ -202,7 +202,7 @@ public class ProductController {
                         "added", LocalDateTime.now().toString()
                 );
 
-                if (recordsDB.addRecord(record) != 1) {
+                if (historyDB.create(history) != 1) {
                     Alerts.jfxAlert("Error", "An error occurred");
                     return;
                 }
@@ -216,7 +216,7 @@ public class ProductController {
                         categoryComboList.getSelectionModel().getSelectedItem()
                 );
 
-                if (productsDB.addProduct(product) != 1) {
+                if (productsDB.create(product) != 1) {
                     Alerts.jfxAlert("Error", "An error occurred");
                     return;
                 }
@@ -297,7 +297,7 @@ public class ProductController {
                 categoryComboList.getSelectionModel().select(0);
             });
 
-            ObservableList<Category> departmentsList = FXCollections.observableArrayList(categoriesDB.getAllCategories());
+            ObservableList<Category> departmentsList = FXCollections.observableArrayList(categoriesDB.getAll());
             departmentsList.forEach(category -> {
                 categoryComboList.getItems().add(category.getCategoryName());
             });
@@ -349,7 +349,7 @@ public class ProductController {
                     return;
                 }
 
-                Record record = new Record(
+                History history = new History(
                         0,
                         Double.parseDouble(tableView.getSelectionModel().getSelectedItem().getValue().getProductPrice()),
                         tableView.getSelectionModel().getSelectedItem().getValue().getProductName(),
@@ -358,7 +358,7 @@ public class ProductController {
                         "edited", LocalDateTime.now().toString()
                 );
 
-                if (recordsDB.addRecord(record) != 1) {
+                if (historyDB.create(history) != 1) {
                     Alerts.jfxAlert("Error", "An error occurred");
                     return;
                 }
@@ -368,7 +368,7 @@ public class ProductController {
                         productNameField.getText(), productDescriptionField.getText(),
                         categoryComboList.getSelectionModel().getSelectedItem());
 
-                if (productsDB.editProducts(Integer.parseInt(productIdField.getText()), productNameField.getText(),
+                if (productsDB.edit(Integer.parseInt(productIdField.getText()), productNameField.getText(),
                         productDescriptionField.getText(), Double.parseDouble(productPriceField.getText()),
                         Integer.parseInt(numberInStockField.getText()),
                         categoryComboList.getSelectionModel().getSelectedItem()) != 1) {
@@ -424,7 +424,7 @@ public class ProductController {
             cancelBtn.getStyleClass().add("dial-btn");
             saveBtn.setOnAction(event1 -> {
 
-                Record record = new Record(
+                History history = new History(
                         0,
                         Double.parseDouble(tableView.getSelectionModel().getSelectedItem().getValue().getProductPrice()),
                         tableView.getSelectionModel().getSelectedItem().getValue().getProductName(),
@@ -433,12 +433,12 @@ public class ProductController {
                         "deleted", LocalDateTime.now().toString()
                 );
 
-                if (recordsDB.addRecord(record) != 1) {
+                if (historyDB.create(history) != 1) {
                     Alerts.jfxAlert("Error", "An error occurred");
                     return;
                 }
 
-                if (productsDB.deleteProduct(productId) != 1) {
+                if (productsDB.delete(productId) != 1) {
                     Alerts.jfxAlert("Error", "An error occurred");
                     return;
                 }

@@ -2,7 +2,7 @@
 package com.inventorymanagement.java.main;
 
 import com.inventorymanagement.java.utils.Constants;
-import com.inventorymanagement.java.utils.configs.db.DBDataSource;
+import com.inventorymanagement.java.utils.DBConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,10 +15,10 @@ import java.io.IOException;
 
 public class Launcher extends Application {
 
-    DBDataSource dbDataSource = new DBDataSource();
     public static Stage stage = null;
 
     public static void main(String[] args) {
+        DBConnection.getInstance();
         launch(args);
     }
 
@@ -47,7 +47,6 @@ public class Launcher extends Application {
     @Override
     public void init() throws Exception {
         super.init();
-        System.out.println(dbDataSource.getDatasource());
     }
 
     @Override

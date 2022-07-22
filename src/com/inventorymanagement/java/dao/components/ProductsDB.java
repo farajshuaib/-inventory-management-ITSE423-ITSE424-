@@ -1,8 +1,9 @@
 
-package com.inventorymanagement.java.dao;
+package com.inventorymanagement.java.dao.components;
 
 import com.inventorymanagement.java.models.Product;
-import com.inventorymanagement.java.utils.DBConstants;
+import com.inventorymanagement.java.utils.Constants;
+import com.inventorymanagement.java.utils.DBConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,21 +12,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ProductsDB {
-    Statement statement = null;
-    PreparedStatement preparedStatement = null;
-    private Connection connection = DBConnection.getInstance().connection();
 
-    public ProductsDB() {
-        try {
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
-        }
-    }
+    private String TableName = Constants.TABLE_PRODUCTS;
+
+    private PreparedStatement preparedStatement = null;
+    private Connection connection = DBConnection.getInstance().getConnection();
+
+    public ProductsDB(){}
+
 
     // get All products
-    public List<Product> getAllProducts() {
-        String query = "SELECT * FROM " + DBConstants.TABLE_PRODUCTS + " ORDER BY id DESC ";
+    public List<Product> getAll() {
+        String query = "SELECT * FROM " + TableName + " ORDER BY id DESC ";
         List<Product> productList = new ArrayList<>();
 
         Statement statement = null;
@@ -54,8 +52,8 @@ public class ProductsDB {
     }
 
     // adding new product
-    public int addProduct(Product product) {
-        String query = "INSERT INTO " + DBConstants.TABLE_PRODUCTS + " VALUES(" +
+    public int create(Product product) {
+        String query = "INSERT INTO " + TableName + " VALUES(" +
                 "?, ?, ?, ?, ?, ?)";
         try {
             preparedStatement = connection.prepareStatement(query);
@@ -74,8 +72,8 @@ public class ProductsDB {
     }
 
     // editing products
-    public int editProducts(int id, String productName, String productDescription, double price, int noInStock, String category) {
-        String query = "update " + DBConstants.TABLE_PRODUCTS + " set " + Product.PRODUCT_NAME + " =?, " +
+    public int edit(int id, String productName, String productDescription, double price, int noInStock, String category) {
+        String query = "update " + TableName + " set " + Product.PRODUCT_NAME + " =?, " +
                 Product.PRODUCT_DESCRIPTION + " =?, " + Product.PRODUCT_PRICE + "=?, " + Product.PRODUCT_CATEGORY + " =?, " +
                 Product.PRODUCT_NUMBER_IN_STOCK + " =? where id=?";
         try {
@@ -95,24 +93,10 @@ public class ProductsDB {
         }
     }
 
-    //check if the product exist
-    public int productExist(String productName) {
-        String query = "SELECT COUNT(" + Product.PRODUCT_NAME + ") FROM " + DBConstants.TABLE_PRODUCTS +
-                " WHERE " + Product.PRODUCT_NAME + " = '" + productName + "'";
-
-        try {
-            preparedStatement = connection.prepareStatement(query);
-            return preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
-            return -1;
-        }
-    }
 
     // delete a product
-    public int deleteProduct(int id) {
-        String query = "DELETE FROM " + DBConstants.TABLE_PRODUCTS + "  WHERE " +
+    public int delete(int id) {
+        String query = "DELETE FROM " + TableName + "  WHERE " +
                 Product.PRODUCT_ID + " = " + id + ";  ";
 
         try {
@@ -125,20 +109,4 @@ public class ProductsDB {
         }
     }
 
-    // purchase
-    public int issuePurchase(int id, int newQuantity) {
-        String query = "update " + DBConstants.TABLE_PRODUCTS + " set " +
-                Product.PRODUCT_NUMBER_IN_STOCK + " =? where id=?";
-        try {
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, newQuantity);
-            preparedStatement.setInt(2, id);
-
-            return preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
-            return -1;
-        }
-    }
 }

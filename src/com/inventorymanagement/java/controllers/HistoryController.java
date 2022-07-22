@@ -1,9 +1,10 @@
 
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao.RecordsDB;
+import com.inventorymanagement.java.dao.Main_DAO;
+import com.inventorymanagement.java.dao.components.HistoryDB;
 import com.inventorymanagement.java.main.Launcher;
-import com.inventorymanagement.java.models.Record;
+import com.inventorymanagement.java.models.History;
 import com.inventorymanagement.java.utils.Constants;
 import com.inventorymanagement.java.utils.MyScene;
 import com.jfoenix.controls.JFXTextField;
@@ -30,8 +31,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class HistoryController {
-    RecordsDB recordsDB = new RecordsDB();
-    List<Record> getRecordList = null;
+
+    HistoryDB historyDB =  Main_DAO.getInstance().history();
+    List<History> getHistoryList = null;
     ObservableList<RecursiveHistory> recordList = null;
     @FXML
     private TreeTableColumn<RecursiveHistory, String> col_action;
@@ -59,7 +61,7 @@ public class HistoryController {
 
     public void initialize() {
         recordList = FXCollections.observableArrayList();
-        getRecordList = recordsDB.getAllRecord();
+        getHistoryList = historyDB.getAll();
 
         //set table values
         setTable();
@@ -70,14 +72,14 @@ public class HistoryController {
     public void refreshAction() {
         // event for refresh
         recordList.removeAll(recordList);
-        getRecordList = recordsDB.getAllRecord();
+        getHistoryList = historyDB.getAll();
 //        String.valueOf(record.getId()), record.getProductName(),
 //                String.valueOf(record.getPrice()), record.getProductDescription(),
 //                String.valueOf(record.getNoInStock()), record.getProductCategory())
-        getRecordList.forEach(record -> {
-            recordList.add(new RecursiveHistory(String.valueOf(record.getId()), record.getProductName(),
-                    String.valueOf(record.getProductPrice()), record.getDescription(),
-                    record.getProductCategory(), record.getAction(), record.getDate()
+        getHistoryList.forEach(history -> {
+            recordList.add(new RecursiveHistory(String.valueOf(history.getId()), history.getProductName(),
+                    String.valueOf(history.getProductPrice()), history.getDescription(),
+                    history.getProductCategory(), history.getAction(), history.getDate()
             ));
         });
     }
@@ -93,11 +95,11 @@ public class HistoryController {
         col_date.setCellValueFactory(param -> param.getValue().getValue().date);
 
 
-        getRecordList.forEach(record -> {
-            recordList.add(new RecursiveHistory(String.valueOf(record.getId()), record.getProductName(),
-                    String.valueOf(record.getProductPrice()), record.getDescription(),
-                    record.getProductCategory(), record.getAction(),
-                    LocalDateTime.parse(record.getDate()).format(DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm:ss"))
+        getHistoryList.forEach(history -> {
+            recordList.add(new RecursiveHistory(String.valueOf(history.getId()), history.getProductName(),
+                    String.valueOf(history.getProductPrice()), history.getDescription(),
+                    history.getProductCategory(), history.getAction(),
+                    LocalDateTime.parse(history.getDate()).format(DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm:ss"))
             ));
         });
 

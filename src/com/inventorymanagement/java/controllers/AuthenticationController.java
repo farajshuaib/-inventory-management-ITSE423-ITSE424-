@@ -1,7 +1,8 @@
 
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao.UsersDB;
+import com.inventorymanagement.java.dao.Main_DAO;
+import com.inventorymanagement.java.dao.components.UsersDB;
 import com.inventorymanagement.java.main.Launcher;
 import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Alerts;
@@ -34,7 +35,7 @@ public class AuthenticationController  {
     double xOffset;
     double yOffset;
     FacadeValidator validator;
-    UsersDB usersDB = new UsersDB();
+    UsersDB usersDB = Main_DAO.getInstance().users();
     @FXML
     private StackPane primaryPane;
     @FXML
@@ -198,7 +199,7 @@ public class AuthenticationController  {
                 0, firstNameField.getText(), lastNameField.getText(), emailField.getText(),
                 getGender, 0 + "", passwordField.getText()
         );
-        if (usersDB.addUser(user) != 1) {
+        if (usersDB.create(user) != 1) {
             Alerts.jfxAlert("Error", "Error occured");
             registrationFail();
             return;
