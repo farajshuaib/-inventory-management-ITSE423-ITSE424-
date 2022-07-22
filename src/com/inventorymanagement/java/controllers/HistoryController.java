@@ -3,10 +3,8 @@ package com.inventorymanagement.java.controllers;
 
 import com.inventorymanagement.java.dao.Main_DAO;
 import com.inventorymanagement.java.dao.components.HistoryDB;
-import com.inventorymanagement.java.main.Launcher;
 import com.inventorymanagement.java.models.History;
-import com.inventorymanagement.java.utils.Constants;
-import com.inventorymanagement.java.utils.MyScene;
+import com.inventorymanagement.java.utils.LayoutsActions;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
@@ -16,21 +14,15 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class HistoryController {
+public class HistoryController extends LayoutsActions {
 
     HistoryDB historyDB =  Main_DAO.getInstance().history();
     List<History> getHistoryList = null;
@@ -48,10 +40,6 @@ public class HistoryController {
     @FXML
     private TreeTableColumn<RecursiveHistory, String> col_name;
 
-    double xOffset;
-    double yOffset;
-    @FXML
-    private AnchorPane mainPane;
     @FXML
     private TreeTableColumn<RecursiveHistory, String> col_id;
     @FXML
@@ -112,75 +100,6 @@ public class HistoryController {
                 tableView.setPredicate(modelTreeItem ->
                         modelTreeItem.getValue().id.getValue().toLowerCase().contains(newValue)
                                 | modelTreeItem.getValue().productName.getValue().toLowerCase().contains(newValue)));
-    }
-
-    private void setStageDraggable() {
-        mainPane.setOnMousePressed(event -> {
-            xOffset = event.getSceneX();
-            yOffset = event.getSceneY();
-        });
-
-        mainPane.setOnMouseDragged(event -> {
-            Launcher.stage.setX(event.getScreenX() - xOffset);
-            Launcher.stage.setY(event.getScreenY() - yOffset);
-            Launcher.stage.setOpacity(0.5f);
-        });
-
-        mainPane.setOnMouseReleased(event -> {
-            Launcher.stage.setOpacity(1);
-        });
-    }
-
-    // product handler
-    public void productBtnEvent(MouseEvent mouseEvent) {
-        Parent parent = null;
-        try {
-            parent = FXMLLoader.load(getClass().getResource(Constants.PRODUCT_FXML_DIR));
-            Stage stage = (Stage) mainPane.getScene().getWindow();
-            stage.setScene(MyScene.getScene(parent));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-
-    // category handler
-    public void categoryBtnEvent(MouseEvent mouseEvent) {
-        Parent parent = null;
-        try {
-            parent = FXMLLoader.load(getClass().getResource(Constants.CATEGORY_FXML_DIR));
-            Stage stage = (Stage) mainPane.getScene().getWindow();
-            stage.setScene(MyScene.getScene(parent));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    // history handler
-    public void historyBtnEvent(MouseEvent mouseEvent) {
-        Parent parent = null;
-        try {
-            parent = FXMLLoader.load(getClass().getResource(Constants.HISTORY_FXML_DIR));
-            Stage stage = (Stage) mainPane.getScene().getWindow();
-            stage.setScene(MyScene.getScene(parent));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    public void homeBtnEvent(MouseEvent mouseEvent) {
-        Parent parent = null;
-        try {
-            parent = FXMLLoader.load(getClass().getResource(Constants.HOME_FXML_DIR));
-            Stage stage = (Stage) mainPane.getScene().getWindow();
-            stage.setScene(MyScene.getScene(parent));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
     }
 
 

@@ -1,13 +1,11 @@
 
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao.components.CategoriesDB;
 import com.inventorymanagement.java.dao.Main_DAO;
-import com.inventorymanagement.java.main.Launcher;
+import com.inventorymanagement.java.dao.components.CategoriesDB;
 import com.inventorymanagement.java.models.Category;
 import com.inventorymanagement.java.utils.Alerts;
-import com.inventorymanagement.java.utils.Constants;
-import com.inventorymanagement.java.utils.MyScene;
+import com.inventorymanagement.java.utils.LayoutsActions;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleStringProperty;
@@ -15,23 +13,17 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryController {
+public class CategoryController extends LayoutsActions {
     CategoriesDB categoriesDB = Main_DAO.getInstance().Categories();
     @FXML
     private StackPane primaryPane;
@@ -50,11 +42,6 @@ public class CategoryController {
     @FXML
     private TreeTableColumn<RecursiveCategory, String> col_description;
 
-
-    double xOffset;
-    double yOffset;
-    @FXML
-    private AnchorPane mainPane;
     @FXML
     private TreeTableColumn<RecursiveCategory, String> col_name;
     @FXML
@@ -307,76 +294,6 @@ public class CategoryController {
                                 | modelTreeItem.getValue().categoryName.getValue().toLowerCase().contains(newValue)));
     }
 
-    private void setStageDraggable() {
-        mainPane.setOnMousePressed(event -> {
-            xOffset = event.getSceneX();
-            yOffset = event.getSceneY();
-        });
-
-        mainPane.setOnMouseDragged(event -> {
-            Launcher.stage.setX(event.getScreenX() - xOffset);
-            Launcher.stage.setY(event.getScreenY() - yOffset);
-            Launcher.stage.setOpacity(0.5f);
-        });
-
-        mainPane.setOnMouseReleased(event -> {
-            Launcher.stage.setOpacity(1);
-        });
-    }
-
-    public void homeBtnEvent(MouseEvent mouseEvent) {
-        Parent parent = null;
-        try {
-            parent = FXMLLoader.load(getClass().getResource(Constants.HOME_FXML_DIR));
-            Stage stage = (Stage) mainPane.getScene().getWindow();
-            stage.setScene(MyScene.getScene(parent));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-
-    // product handler
-    public void productBtnEvent(MouseEvent mouseEvent) {
-        Parent parent = null;
-        try {
-            parent = FXMLLoader.load(getClass().getResource(Constants.PRODUCT_FXML_DIR));
-            Stage stage = (Stage) mainPane.getScene().getWindow();
-            stage.setScene(MyScene.getScene(parent));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-
-
-    // category handler
-    public void categoryBtnEvent(MouseEvent mouseEvent) {
-        Parent parent = null;
-        try {
-            parent = FXMLLoader.load(getClass().getResource(Constants.CATEGORY_FXML_DIR));
-            Stage stage = (Stage) mainPane.getScene().getWindow();
-            stage.setScene(MyScene.getScene(parent));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    // history handler
-    public void historyBtnEvent(MouseEvent mouseEvent) {
-        Parent parent = null;
-        try {
-            parent = FXMLLoader.load(getClass().getResource(Constants.HISTORY_FXML_DIR));
-            Stage stage = (Stage) mainPane.getScene().getWindow();
-            stage.setScene(MyScene.getScene(parent));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
 
     static class RecursiveCategory extends RecursiveTreeObject<RecursiveCategory> {
         private StringProperty id, categoryName, categoryDescription;
@@ -395,32 +312,12 @@ public class CategoryController {
             this.id.set(id);
         }
 
-        public StringProperty idProperty() {
-            return id;
-        }
-
         public String getCategoryName() {
             return categoryName.get();
         }
-
-        public void setCategoryName(String categoryName) {
-            this.categoryName.set(categoryName);
-        }
-
-        public StringProperty categoryNameProperty() {
-            return categoryName;
-        }
-
         public String getCategoryDescription() {
             return categoryDescription.get();
         }
 
-        public void setCategoryDescription(String categoryDescription) {
-            this.categoryDescription.set(categoryDescription);
-        }
-
-        public StringProperty categoryDescriptionProperty() {
-            return categoryDescription;
-        }
     }
 }

@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainPane" prefHeight="58.0" prefWidth="771.0"
             xmlns="http://javafx.com/javafx/11.0.1"
-            fx:controller="com.inventorymanagement.java.controllers.TopMenuController">
+            fx:controller="com.inventorymanagement.java.controllers.TopMenuControllrer.TopMenuController">
     <children>
         <ImageView fitHeight="37.0" fitWidth="32.0" layoutX="16.0" layoutY="10.0" pickOnBounds="true"
                    preserveRatio="true" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="10.0">

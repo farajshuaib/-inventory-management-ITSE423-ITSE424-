@@ -5,10 +5,9 @@ import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Constants;
 import com.inventorymanagement.java.utils.DBConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,6 +17,34 @@ public class UsersDB {
     private Connection connection = DBConnection.getInstance().getConnection();
 
     public UsersDB(){
+    }
+
+    public List<User> getAll(){
+        String query = "SELECT * FROM " + TableName + " ORDER BY id DESC ";
+        List<User> usersList = new ArrayList<>();
+
+        Statement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt(1));
+                user.setFirstName(resultSet.getString(2));
+                user.setLastName(resultSet.getString(3));
+                user.setEmail(resultSet.getString(4));
+                user.setNumber(resultSet.getString(5));
+                user.setGender(resultSet.getString(6));
+
+                usersList.add(user);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return usersList;
     }
 
     // adding new user
@@ -60,6 +87,23 @@ public class UsersDB {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
             return -1;
         }
+    }
+
+    public int delete(int id) {
+        String query = "DELETE FROM " + TableName + "  WHERE " +
+                User.USER_ID + " = " + id + ";  ";
+
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            return preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+            return -1;
+        }
+
+
     }
 
     //check if the user exist

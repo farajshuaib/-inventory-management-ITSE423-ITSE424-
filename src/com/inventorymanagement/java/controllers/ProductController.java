@@ -1,20 +1,18 @@
 
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao.components.CategoriesDB;
 import com.inventorymanagement.java.dao.Main_DAO;
-import com.inventorymanagement.java.dao.components.ProductsDB;
+import com.inventorymanagement.java.dao.components.CategoriesDB;
 import com.inventorymanagement.java.dao.components.HistoryDB;
-import com.inventorymanagement.java.main.Launcher;
+import com.inventorymanagement.java.dao.components.ProductsDB;
 import com.inventorymanagement.java.models.Category;
 import com.inventorymanagement.java.models.History;
 import com.inventorymanagement.java.models.Product;
 import com.inventorymanagement.java.utils.Alerts;
-import com.inventorymanagement.java.utils.Constants;
-import com.inventorymanagement.java.utils.MyScene;
 import com.inventorymanagement.java.utils.validators.EmailValidation;
 import com.inventorymanagement.java.utils.validators.FacadeValidator;
 import com.inventorymanagement.java.utils.validators.UserNameValidation;
+import com.inventorymanagement.java.utils.LayoutsActions;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,30 +20,21 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
-import javax.xml.validation.Validator;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductController {
+public class ProductController extends LayoutsActions {
     ProductsDB productsDB = Main_DAO.getInstance().products();
     CategoriesDB categoriesDB = Main_DAO.getInstance().Categories();
     HistoryDB historyDB =  Main_DAO.getInstance().history();
-    double xOffset;
-    double yOffset;
     List<Product> getProductsList = null;
     ObservableList<RecursiveProduct> productList = null;
     FacadeValidator validator;
@@ -62,8 +51,7 @@ public class ProductController {
     private TreeTableColumn<RecursiveProduct, String> col_description;
     @FXML
     private TreeTableColumn<RecursiveProduct, String> col_quantity;
-    @FXML
-    private AnchorPane mainPane;
+
     @FXML
     private StackPane primaryPane;
     @FXML
@@ -486,75 +474,6 @@ public class ProductController {
                                 | modelTreeItem.getValue().productName.getValue().toLowerCase().contains(newValue)));
     }
 
-    // setting stage draggable
-    private void setStageDraggable() {
-        mainPane.setOnMousePressed(event -> {
-            xOffset = event.getSceneX();
-            yOffset = event.getSceneY();
-        });
-
-        mainPane.setOnMouseDragged(event -> {
-            Launcher.stage.setX(event.getScreenX() - xOffset);
-            Launcher.stage.setY(event.getScreenY() - yOffset);
-            Launcher.stage.setOpacity(0.5f);
-        });
-
-        mainPane.setOnMouseReleased(event -> {
-            Launcher.stage.setOpacity(1);
-        });
-    }
-
-    // product handler
-    public void productBtnEvent(MouseEvent mouseEvent) {
-        Parent parent = null;
-        try {
-            parent = FXMLLoader.load(getClass().getResource(Constants.PRODUCT_FXML_DIR));
-            Stage stage = (Stage) mainPane.getScene().getWindow();
-            stage.setScene(MyScene.getScene(parent));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-
-    // category handler
-    public void categoryBtnEvent(MouseEvent mouseEvent) {
-        Parent parent = null;
-        try {
-            parent = FXMLLoader.load(getClass().getResource(Constants.CATEGORY_FXML_DIR));
-            Stage stage = (Stage) mainPane.getScene().getWindow();
-            stage.setScene(MyScene.getScene(parent));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    // history handler
-    public void historyBtnEvent(MouseEvent mouseEvent) {
-        Parent parent = null;
-        try {
-            parent = FXMLLoader.load(getClass().getResource(Constants.HISTORY_FXML_DIR));
-            Stage stage = (Stage) mainPane.getScene().getWindow();
-            stage.setScene(MyScene.getScene(parent));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    public void homeBtnEvent(MouseEvent mouseEvent) {
-        Parent parent = null;
-        try {
-            parent = FXMLLoader.load(getClass().getResource(Constants.HOME_FXML_DIR));
-            Stage stage = (Stage) mainPane.getScene().getWindow();
-            stage.setScene(MyScene.getScene(parent));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
 
 
     static class RecursiveProduct extends RecursiveTreeObject<RecursiveProduct> {

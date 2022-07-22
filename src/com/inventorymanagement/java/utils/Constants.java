@@ -18,11 +18,14 @@ public final class Constants {
 
 
 
+    // files
     public static String HOME_FXML_DIR = "/com/inventorymanagement/resources/fxml/home.fxml";
     public static String PRODUCT_FXML_DIR = "/com/inventorymanagement/resources/fxml/products.fxml";
     public static String HISTORY_FXML_DIR = "/com/inventorymanagement/resources/fxml/history.fxml";
     public static String CATEGORY_FXML_DIR = "/com/inventorymanagement/resources/fxml/categories.fxml";
-    public static String AUTH_FXML_DIR = "/com/inventorymanagement/resources/fxml/auth.fxml";
+    public static String AUTH_FXML_DIR = "/com/inventorymanagement/resources/fxml/login.fxml";
+    public static String USERS_FXML_DIR = "/com/inventorymanagement/resources/fxml/users.fxml";
+    public static String REGISTRATION_FXML_DIR = "/com/inventorymanagement/resources/fxml/create_user.fxml";
 
 
 
