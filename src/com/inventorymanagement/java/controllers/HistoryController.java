@@ -1,8 +1,8 @@
 
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao.Main_DAO;
-import com.inventorymanagement.java.dao.components.HistoryDB;
+import com.inventorymanagement.java.dao_composite.Main_DAO;
+import com.inventorymanagement.java.dao_composite.components.HistoryDB;
 import com.inventorymanagement.java.models.History;
 import com.inventorymanagement.java.utils.LayoutsActions;
 import com.jfoenix.controls.JFXTextField;
@@ -14,15 +14,18 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class HistoryController extends LayoutsActions {
+public class HistoryController extends LayoutsActions implements Initializable {
 
     HistoryDB historyDB =  Main_DAO.getInstance().history();
     List<History> getHistoryList = null;
@@ -47,7 +50,12 @@ public class HistoryController extends LayoutsActions {
     @FXML
     private JFXTextField searchField;
 
-    public void initialize() {
+    public void initialize(URL location, ResourceBundle resources) {
+        if(userData == null) return;
+        categoryButton.setVisible(userData.getRole().equals("admin"));
+        usersButton.setVisible(userData.getRole().equals("admin"));
+        historyButton.setVisible(userData.getRole().equals("admin"));
+
         recordList = FXCollections.observableArrayList();
         getHistoryList = historyDB.getAll();
 

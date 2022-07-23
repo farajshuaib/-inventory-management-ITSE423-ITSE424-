@@ -1,20 +1,23 @@
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao.Main_DAO;
-import com.inventorymanagement.java.dao.components.CategoriesDB;
-import com.inventorymanagement.java.dao.components.ProductsDB;
+import com.inventorymanagement.java.dao_composite.Main_DAO;
+import com.inventorymanagement.java.dao_composite.components.CategoriesDB;
+import com.inventorymanagement.java.dao_composite.components.ProductsDB;
 import com.inventorymanagement.java.models.Category;
 import com.inventorymanagement.java.models.Product;
 import com.inventorymanagement.java.utils.LayoutsActions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.layout.StackPane;
 
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class HomeController extends LayoutsActions {
+public class HomeController extends LayoutsActions implements Initializable {
 
     ProductsDB productsDB = Main_DAO.getInstance().products();
     CategoriesDB categoriesDB = Main_DAO.getInstance().Categories();
@@ -30,7 +33,12 @@ public class HomeController extends LayoutsActions {
 
 
 
-    public void initialize() {
+    public void initialize(URL location, ResourceBundle resources) {
+        if(userData == null) return;
+        categoryButton.setVisible(userData.getRole().equals("admin"));
+        usersButton.setVisible(userData.getRole().equals("admin"));
+        historyButton.setVisible(userData.getRole().equals("admin"));
+
         // fetching the list from database
         categoryList = categoriesDB.getAll();
         productsList = productsDB.getAll();

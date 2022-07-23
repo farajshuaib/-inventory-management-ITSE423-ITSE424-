@@ -1,11 +1,13 @@
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao.Main_DAO;
-import com.inventorymanagement.java.dao.components.UsersDB;
+import com.inventorymanagement.java.dao_composite.Main_DAO;
+import com.inventorymanagement.java.dao_composite.components.UsersDB;
 import com.inventorymanagement.java.main.Launcher;
+import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Alerts;
 import com.inventorymanagement.java.utils.Constants;
 import com.inventorymanagement.java.utils.ShowTrayNotification;
+import com.inventorymanagement.java.utils.observeUserData.UserData;
 import com.inventorymanagement.java.utils.validators.EmailValidation;
 import com.inventorymanagement.java.utils.validators.FacadeValidator;
 import com.inventorymanagement.java.utils.validators.UserNameValidation;
@@ -88,17 +90,27 @@ public class LoginController {
     public void loginBtnAction(MouseEvent event)  {
         Parent pane = null;
 
-        if(Constants.DEV_MODE != "TEST"){
-            if(!validateValues()){
-                loginFail();
-                return;
-            }
+        if(!validateValues()){
+            loginFail();
+            return;
         }
 
 
-        ShowTrayNotification
-                .trayNotification("Login in success", "Welcome back",
-                        AnimationType.SLIDE, NotificationType.SUCCESS);
+        try {
+            User user = usersDB.getUserByEmailAndPassword(loginEmailBtn.getText(), loginPasswordField.getText());
+            if(user == null){
+                ShowTrayNotification
+                        .trayNotification("User Not Found", "Login failed",
+                                AnimationType.SLIDE, NotificationType.ERROR);
+                return;
+            }
+            UserData.setState(user);
+            ShowTrayNotification
+                    .trayNotification("Login in success", "Welcome back",
+                            AnimationType.SLIDE, NotificationType.SUCCESS);
+        } catch (Exception e){
+            System.out.println(e);
+        }
 
 
         try {

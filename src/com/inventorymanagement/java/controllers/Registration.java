@@ -1,8 +1,8 @@
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao.Main_DAO;
-import com.inventorymanagement.java.dao.components.RolesDB;
-import com.inventorymanagement.java.dao.components.UsersDB;
+import com.inventorymanagement.java.dao_composite.Main_DAO;
+import com.inventorymanagement.java.dao_composite.components.RolesDB;
+import com.inventorymanagement.java.dao_composite.components.UsersDB;
 import com.inventorymanagement.java.models.Roles;
 import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Alerts;
@@ -16,13 +16,17 @@ import com.jfoenix.controls.JFXRadioButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class Registration  extends LayoutsActions {
+
+public class Registration  extends LayoutsActions implements Initializable {
     UsersDB usersDB = Main_DAO.getInstance().users();
     RolesDB rolesDB = Main_DAO.getInstance().roles();
     FacadeValidator validator = new FacadeValidator(new EmailValidation(),new UserNameValidation());
@@ -48,7 +52,12 @@ public class Registration  extends LayoutsActions {
 
 
 
-    public void initialize() {
+    public void initialize(URL location, ResourceBundle resources) {
+        if(userData == null) return;
+        categoryButton.setVisible(userData.getRole().equals("admin"));
+        usersButton.setVisible(userData.getRole().equals("admin"));
+        historyButton.setVisible(userData.getRole().equals("admin"));
+
         //setting stage draggable
         setStageDraggable();
 

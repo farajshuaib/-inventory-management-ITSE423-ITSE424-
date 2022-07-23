@@ -1,5 +1,5 @@
 
-package com.inventorymanagement.java.dao.components;
+package com.inventorymanagement.java.dao_composite.components;
 
 import com.inventorymanagement.java.models.Category;
 import com.inventorymanagement.java.utils.Constants;

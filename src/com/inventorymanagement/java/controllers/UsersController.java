@@ -1,8 +1,8 @@
 
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao.Main_DAO;
-import com.inventorymanagement.java.dao.components.UsersDB;
+import com.inventorymanagement.java.dao_composite.Main_DAO;
+import com.inventorymanagement.java.dao_composite.components.UsersDB;
 import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Alerts;
 import com.inventorymanagement.java.utils.Constants;
@@ -16,6 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
@@ -26,10 +27,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class UsersController extends LayoutsActions {
+public class UsersController extends LayoutsActions implements Initializable {
 
     UsersDB usersDB = Main_DAO.getInstance().users();
     @FXML
@@ -63,7 +66,12 @@ public class UsersController extends LayoutsActions {
 
 
 
-    public void initialize() {
+    public void initialize(URL location, ResourceBundle resources) {
+        if(userData == null) return;
+        categoryButton.setVisible(userData.getRole().equals("admin"));
+        usersButton.setVisible(userData.getRole().equals("admin"));
+        historyButton.setVisible(userData.getRole().equals("admin"));
+
         ProgressBar progressBar = new ProgressBar();
         // initializing list objects
         UsersList = FXCollections.observableArrayList();

@@ -1,6 +1,6 @@
-package com.inventorymanagement.java.dao;
+package com.inventorymanagement.java.dao_composite;
 
-import com.inventorymanagement.java.dao.components.*;
+import com.inventorymanagement.java.dao_composite.components.*;
 
 public class Main_DAO implements DAO {
     private static Main_DAO instance = new Main_DAO();

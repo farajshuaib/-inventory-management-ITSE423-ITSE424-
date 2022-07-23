@@ -1,9 +1,12 @@
 package com.inventorymanagement.java.utils;
 
 import com.inventorymanagement.java.main.Launcher;
+import com.inventorymanagement.java.models.User;
+import com.inventorymanagement.java.utils.observeUserData.UserData;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -11,10 +14,27 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class LayoutsActions {
+    public User userData = UserData.getState();
+
     @FXML
     protected AnchorPane mainPane;
+    @FXML
+    private Button homeButton;
+    @FXML
+    protected Button categoryButton;
+    @FXML
+    protected Button usersButton;
+    @FXML
+    protected Button productsButton;
+    @FXML
+    protected Button historyButton;
     protected double xOffset;
     protected double yOffset;
+
+
+    public LayoutsActions(){}
+
+
 
     public void homeBtnEvent(MouseEvent mouseEvent) {
         Parent parent = null;
@@ -29,6 +49,7 @@ public class LayoutsActions {
     }
 
     public void  usersBtnEvent(MouseEvent mouseEvent){
+        if(!userData.getRole().equals("admin")) return;
         Parent parent = null;
         try {
             parent = FXMLLoader.load(getClass().getResource(Constants.USERS_FXML_DIR));
@@ -58,6 +79,7 @@ public class LayoutsActions {
 
     // category handler
     public void categoryBtnEvent(MouseEvent mouseEvent) {
+        if(!userData.getRole().equals("admin")) return;
         Parent parent = null;
         try {
             parent = FXMLLoader.load(getClass().getResource(Constants.CATEGORY_FXML_DIR));
@@ -71,6 +93,7 @@ public class LayoutsActions {
 
     // history handler
     public void historyBtnEvent(MouseEvent mouseEvent) {
+        if(!userData.getRole().equals("admin")) return;
         Parent parent = null;
         try {
             parent = FXMLLoader.load(getClass().getResource(Constants.HISTORY_FXML_DIR));

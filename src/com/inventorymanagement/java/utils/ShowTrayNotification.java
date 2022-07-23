@@ -7,17 +7,9 @@ import tray.notification.NotificationType;
 import tray.notification.TrayNotification;
 
 
-interface Observer {
-    public static TrayNotification trayNotification(
-            String title,
-            String message,
-            AnimationType animationType,
-            NotificationType notificationType){
-        return  new TrayNotification();
-    };
-}
 
-public class ShowTrayNotification implements Observer {
+
+public class ShowTrayNotification  {
     public static TrayNotification trayNotification(
             String title,
             String message,

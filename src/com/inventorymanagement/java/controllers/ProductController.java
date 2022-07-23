@@ -1,10 +1,10 @@
 
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao.Main_DAO;
-import com.inventorymanagement.java.dao.components.CategoriesDB;
-import com.inventorymanagement.java.dao.components.HistoryDB;
-import com.inventorymanagement.java.dao.components.ProductsDB;
+import com.inventorymanagement.java.dao_composite.Main_DAO;
+import com.inventorymanagement.java.dao_composite.components.CategoriesDB;
+import com.inventorymanagement.java.dao_composite.components.HistoryDB;
+import com.inventorymanagement.java.dao_composite.components.ProductsDB;
 import com.inventorymanagement.java.models.Category;
 import com.inventorymanagement.java.models.History;
 import com.inventorymanagement.java.models.Product;
@@ -20,6 +20,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
@@ -27,11 +28,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class ProductController extends LayoutsActions {
+public class ProductController extends LayoutsActions implements Initializable {
     ProductsDB productsDB = Main_DAO.getInstance().products();
     CategoriesDB categoriesDB = Main_DAO.getInstance().Categories();
     HistoryDB historyDB =  Main_DAO.getInstance().history();
@@ -65,11 +68,17 @@ public class ProductController extends LayoutsActions {
     @FXML
     private JFXTreeTableView<RecursiveProduct> tableView;
 
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         productList = FXCollections.observableArrayList();
         getProductsList = productsDB.getAll();
 
         validator = new FacadeValidator(new EmailValidation(), new UserNameValidation());
+
+        if(userData == null) return;
+        categoryButton.setVisible(userData.getRole().equals("admin"));
+        usersButton.setVisible(userData.getRole().equals("admin"));
+        historyButton.setVisible(userData.getRole().equals("admin"));
 
         // setting btn events
         btnEvents();
@@ -473,7 +482,6 @@ public class ProductController extends LayoutsActions {
                         modelTreeItem.getValue().id.getValue().toLowerCase().contains(newValue)
                                 | modelTreeItem.getValue().productName.getValue().toLowerCase().contains(newValue)));
     }
-
 
 
     static class RecursiveProduct extends RecursiveTreeObject<RecursiveProduct> {

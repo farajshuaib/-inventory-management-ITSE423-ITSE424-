@@ -1,16 +1,18 @@
 package com.inventorymanagement.java.controllers.TopMenuControllrer.commands;
 
 import com.inventorymanagement.java.utils.Constants;
+import com.inventorymanagement.java.utils.observeUserData.UserData;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class LogoutEvent implements ButtonPressedEvent {
+
     MouseEvent mouseEvent;
 
     public  LogoutEvent(MouseEvent mouseEvent){
@@ -23,6 +25,7 @@ public class LogoutEvent implements ButtonPressedEvent {
     {
         Parent pane = null;
         try {
+            UserData.removeState();
             pane = FXMLLoader.load(getClass().getResource(Constants.AUTH_FXML_DIR));
         } catch (IOException e) {
             System.out.println(e.getMessage());

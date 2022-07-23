@@ -1,5 +1,5 @@
 
-package com.inventorymanagement.java.dao.components;
+package com.inventorymanagement.java.dao_composite.components;
 
 import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Constants;
@@ -136,5 +136,31 @@ public class UsersDB {
             return true;
         else
             return false;
+    }
+
+    public User getUserByEmailAndPassword(String email, String password) throws SQLException{
+        String query = "SELECT * FROM " + TableName + " WHERE email = '" + email + "' and " +
+                "password = '" + password + "'";
+
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+
+
+        if (resultSet.next()) {
+            User user = new User(
+                    resultSet.getInt(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getString(5),
+                    resultSet.getString(6),
+                    resultSet.getString(7),
+                    resultSet.getString(8)
+            );
+            return user;
+        }else  {
+            return  null;
+        }
     }
 }
