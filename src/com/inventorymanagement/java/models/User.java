@@ -9,20 +9,25 @@ public class User {
     public static final String USER_GENDER = "gender";
     public static final String USER_NUMBER = "mobile_number";
     public static final String USER_PASSWORD = "password";
+    public static  final String ROLE = "role";
     private int id;
-    private String firstName, lastName, email, gender, number, password;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String gender;
+    private String number;
+    private String password;
+    private String role;
 
-    public User() {
-    }
-
-    public User(int id, String firstName, String lastName, String email, String gender, String number, String password) {
+    public User(int id, String firstName, String lastName, String email, String gender, String number, String password, String role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.gender = gender;
         this.number = number;
+        this.gender = gender;
         this.password = password;
+        this.role = role;
     }
 
     public int getId() {
@@ -79,5 +84,12 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

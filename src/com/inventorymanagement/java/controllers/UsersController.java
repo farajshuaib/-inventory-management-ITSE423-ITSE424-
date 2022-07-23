@@ -57,6 +57,8 @@ public class UsersController extends LayoutsActions {
     @FXML
     private TreeTableColumn<UsersController.RecursiveUser, String> col_gender;
     @FXML
+    private TreeTableColumn<UsersController.RecursiveUser, String> col_role;
+    @FXML
     private JFXTreeTableView<UsersController.RecursiveUser> tableView;
 
 
@@ -169,8 +171,8 @@ public class UsersController extends LayoutsActions {
         UsersList.removeAll(UsersList);
         getUsersList = usersDB.getAll();
         getUsersList.forEach(user -> {
-            UsersList.add(new UsersController.RecursiveUser(String.valueOf(user.getId()), user.getFirstName(),
-                    user.getLastName(), user.getEmail(), user.getGender(), user.getNumber()));
+            UsersList.add(new RecursiveUser(String.valueOf(user.getId()), user.getFirstName(),
+                    user.getLastName(), user.getEmail(), user.getGender(), user.getNumber(), user.getRole()));
         });
     }
 
@@ -181,6 +183,7 @@ public class UsersController extends LayoutsActions {
         this.col_email.setCellValueFactory(param -> param.getValue().getValue().Email);
         this.col_phone_number.setCellValueFactory(param -> param.getValue().getValue().Number);
         this.col_gender.setCellValueFactory(param -> param.getValue().getValue().Gender);
+        this.col_role.setCellValueFactory(param -> param.getValue().getValue().Role);
 
         getUsersList.forEach(user -> {
             UsersList.add(new RecursiveUser(
@@ -189,7 +192,8 @@ public class UsersController extends LayoutsActions {
                     user.getLastName(),
                     user.getEmail(),
                     user.getNumber(),
-                    user.getGender()
+                    user.getGender(),
+                    user.getRole()
                     )
             );
         });
@@ -210,17 +214,18 @@ public class UsersController extends LayoutsActions {
 
 
     static class RecursiveUser extends RecursiveTreeObject<UsersController.RecursiveUser> {
-        public StringProperty id, firstName, LastName, Email, Gender, Number;
+        public StringProperty id, firstName, LastName, Email, Gender, Number, Role;
 
 
 
-        public RecursiveUser(String id, String firstName, String LastName, String Email, String Gender, String Number) {
+        public RecursiveUser(String id, String firstName, String LastName, String Email, String Gender, String Number, String Role) {
             this.id = new SimpleStringProperty(id);
             this.firstName = new SimpleStringProperty(firstName);
             this.LastName = new SimpleStringProperty(LastName);
             this.Email = new SimpleStringProperty(Email);
             this.Gender = new SimpleStringProperty(Gender);
             this.Number = new SimpleStringProperty(Number);
+            this.Role = new SimpleStringProperty(Role);
         }
 
         public String getId() {

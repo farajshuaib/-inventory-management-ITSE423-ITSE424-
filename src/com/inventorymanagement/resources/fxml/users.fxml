@@ -141,6 +141,7 @@
                                                 <TreeTableColumn fx:id="col_email" prefWidth="75.0" text="Email" />
                                                 <TreeTableColumn fx:id="col_phone_number" prefWidth="75.0" text="Phone number" />
                                                 <TreeTableColumn fx:id="col_gender" prefWidth="75.0" text="Gender" />
+                                                <TreeTableColumn fx:id="col_role" prefWidth="75.0" text="role" />
                                             </columns>
                                             <columnResizePolicy>
                                                 <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

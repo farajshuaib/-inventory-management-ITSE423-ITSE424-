@@ -30,14 +30,16 @@ public class UsersDB {
             resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
-                User user = new User();
-                user.setId(resultSet.getInt(1));
-                user.setFirstName(resultSet.getString(2));
-                user.setLastName(resultSet.getString(3));
-                user.setEmail(resultSet.getString(4));
-                user.setNumber(resultSet.getString(5));
-                user.setGender(resultSet.getString(6));
-
+                User user = new User(
+                        resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getString(4),
+                        resultSet.getString(5),
+                        resultSet.getString(6),
+                        resultSet.getString(7),
+                        resultSet.getString(8)
+                        );
                 usersList.add(user);
             }
         } catch (SQLException e) {
@@ -50,7 +52,7 @@ public class UsersDB {
     // adding new user
     public int create(User user) {
         String query = "INSERT INTO " + TableName + " VALUES(" +
-                "?, ?, ?, ?, ?, ?, ?)";
+                "?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, 0);
@@ -60,6 +62,7 @@ public class UsersDB {
             preparedStatement.setString(5, user.getGender());
             preparedStatement.setString(6, user.getNumber());
             preparedStatement.setString(7, user.getPassword());
+            preparedStatement.setString(8, user.getRole());
 
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -69,9 +72,10 @@ public class UsersDB {
     }
 
     // editing user
-    public int edit(int id, String firstName, String lastName, String gender, String number) {
+    public int edit(int id, String firstName, String lastName, String gender, String number, String role) {
         String query = "update " + TableName + " set " + User.USER_FIRST_NAME + " =?, " +
                 User.USER_LAST_NAME + " =?, " + User.USER_GENDER + "=?, " + User.USER_NUMBER + " =? " +
+                User.ROLE + " =? " +
                 " where id=?";
         try {
             preparedStatement = connection.prepareStatement(query);
@@ -79,7 +83,8 @@ public class UsersDB {
             preparedStatement.setString(2, lastName);
             preparedStatement.setString(3, gender);
             preparedStatement.setString(4, number);
-            preparedStatement.setInt(5, id);
+            preparedStatement.setString(5, role);
+            preparedStatement.setInt(6, id);
 
             return preparedStatement.executeUpdate();
 

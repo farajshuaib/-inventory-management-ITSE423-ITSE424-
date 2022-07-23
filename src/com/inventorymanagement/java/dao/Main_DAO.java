@@ -1,10 +1,6 @@
 package com.inventorymanagement.java.dao;
 
-import com.inventorymanagement.java.dao.components.CategoriesDB;
-import com.inventorymanagement.java.dao.components.HistoryDB;
-import com.inventorymanagement.java.dao.components.ProductsDB;
-import com.inventorymanagement.java.dao.components.UsersDB;
-import com.inventorymanagement.java.interfaces.DAO;
+import com.inventorymanagement.java.dao.components.*;
 
 public class Main_DAO implements DAO {
     private static Main_DAO instance = new Main_DAO();
@@ -32,5 +28,9 @@ public class Main_DAO implements DAO {
     @Override
     public UsersDB users() {
         return new UsersDB();
+    }
+    @Override
+    public RolesDB roles() {
+        return new RolesDB();
     }
 }

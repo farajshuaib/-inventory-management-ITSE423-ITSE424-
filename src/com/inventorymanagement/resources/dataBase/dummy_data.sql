@@ -1,5 +1,19 @@
 
 
+INSERT INTO `categories` (`category_name`,`category_description`)
+VALUES
+    ("desktop"),
+    ("tablets"),
+    ("laptops"),
+    ("tablets"),
+    ("bags"),
+    ("desktop"),
+    ("tablets"),
+    ("tablets"),
+    ("bags"),
+    ("mobile");
+
+
 INSERT INTO `products` (`product_name`,`product_description`,`product_price`,`number_in_stock`,`product_category`)
 VALUES
   ("macbook","test",6,3,"desktop"),

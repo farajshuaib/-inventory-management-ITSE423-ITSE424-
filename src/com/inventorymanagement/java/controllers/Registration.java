@@ -1,39 +1,32 @@
 package com.inventorymanagement.java.controllers;
 
 import com.inventorymanagement.java.dao.Main_DAO;
+import com.inventorymanagement.java.dao.components.RolesDB;
 import com.inventorymanagement.java.dao.components.UsersDB;
+import com.inventorymanagement.java.models.Roles;
 import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Alerts;
-import com.inventorymanagement.java.utils.Constants;
 import com.inventorymanagement.java.utils.LayoutsActions;
 import com.inventorymanagement.java.utils.ShowTrayNotification;
 import com.inventorymanagement.java.utils.validators.EmailValidation;
 import com.inventorymanagement.java.utils.validators.FacadeValidator;
 import com.inventorymanagement.java.utils.validators.UserNameValidation;
-import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
-
-import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.util.Objects;
 
 
 public class Registration  extends LayoutsActions {
     UsersDB usersDB = Main_DAO.getInstance().users();
+    RolesDB rolesDB = Main_DAO.getInstance().roles();
     FacadeValidator validator = new FacadeValidator(new EmailValidation(),new UserNameValidation());
-    @FXML
-    private StackPane primaryPane;
-    @FXML
-    private AnchorPane mainPane;
+
     @FXML
     private TextField firstNameField;
     @FXML
@@ -45,17 +38,28 @@ public class Registration  extends LayoutsActions {
     @FXML
     private JFXRadioButton maleRadio;
     @FXML
-    private ToggleGroup gender;
-    @FXML
     private JFXRadioButton femaleRadio;
+
     @FXML
-    private JFXButton signUpBtn;
+    JFXComboBox<String> roleComboList = new JFXComboBox<>();
+
+
+
 
 
 
     public void initialize() {
         //setting stage draggable
         setStageDraggable();
+
+        roleComboList.setPromptText("User Role");
+        roleComboList.setPrefWidth(400.0);
+        roleComboList.setLabelFloat(true);
+
+        ObservableList<Roles> departmentsList = FXCollections.observableArrayList(rolesDB.getAll());
+        departmentsList.forEach(role -> {
+            roleComboList.getItems().add(role.getRole_name());
+        });
     }
 
 
@@ -98,6 +102,11 @@ public class Registration  extends LayoutsActions {
             }
         }
 
+        if (roleComboList.getSelectionModel().isEmpty()) {
+            Alerts.jfxAlert("Error", "Category must be selected");
+            return;
+        }
+
         if (passwordField.getText().length() < 6) {
             Alerts.jfxAlert("Error", "Password must be greater than 6 characters");
             registrationFail();
@@ -119,7 +128,7 @@ public class Registration  extends LayoutsActions {
 
         User user = new User(
                 0, firstNameField.getText(), lastNameField.getText(), emailField.getText(),
-                getGender, 0 + "", passwordField.getText()
+                getGender, 0 + "", passwordField.getText(), roleComboList.getSelectionModel().getSelectedItem()
         );
         if (usersDB.create(user) != 1) {
             Alerts.jfxAlert("Error", "Error occured");

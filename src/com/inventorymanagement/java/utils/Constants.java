@@ -14,6 +14,7 @@ public final class Constants {
     public static String TABLE_PRODUCTS = "products";
     public static String TABLE_CATEGORIES = "categories";
     public static String TABLE_HISTORY = "records";
+    public static String TABLE_ROLES = "roles";
 
 
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -246,6 +245,19 @@
                                                         <Insets left="20.0" right="20.0"/>
                                                     </padding>
                                                 </HBox>
+<!--                                                role -->
+                                                <HBox alignment="CENTER" prefHeight="67.0" prefWidth="558.0" spacing="30.0"
+                                                      VBox.vgrow="ALWAYS">
+                                                    <padding>
+                                                        <Insets left="20.0" right="20.0"/>
+                                                    </padding>
+                                                    <children>
+                                                        <Label text="user role" textFill="#073757"/>
+                                                        <JFXComboBox fx:id="roleComboList" styleClass="custom-text" >
+                                                        </JFXComboBox>
+                                                    </children>
+                                                </HBox>
+
                                                 <HBox alignment="CENTER" prefHeight="67.0" prefWidth="558.0" spacing="30.0"
                                                       VBox.vgrow="ALWAYS">
                                                     <padding>
@@ -265,7 +277,7 @@
                                                 <HBox alignment="CENTER" prefHeight="48.0" prefWidth="552.0" spacing="30.0"
                                                       VBox.vgrow="ALWAYS">
                                                     <children>
-                                                        <JFXButton fx:id="signUpBtn" onMouseClicked="#Submit"
+                                                        <JFXButton onMouseClicked="#Submit"
                                                                    prefHeight="48.0" prefWidth="587.0"
                                                                    style="-fx-background-color: #073757;" text="Submit"
                                                                    textFill="WHITE" HBox.hgrow="ALWAYS">
