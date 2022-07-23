@@ -1,5 +1,5 @@
 package com.inventorymanagement.java.utils.observeUserData;
 
-interface Observer {
+public interface Observer {
     public void update();
 }

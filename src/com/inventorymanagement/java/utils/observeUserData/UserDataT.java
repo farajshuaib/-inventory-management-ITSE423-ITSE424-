@@ -14,4 +14,8 @@ interface UserDataT {
     public static void removeState(User userData) {
 
     }
+
+    public static void addObserver(Observer observer){
+
+    };
 }

@@ -6,18 +6,10 @@ import com.inventorymanagement.java.controllers.TopMenuControllrer.commands.Logo
 import com.inventorymanagement.java.controllers.TopMenuControllrer.commands.MaximizeEvent;
 import com.inventorymanagement.java.controllers.TopMenuControllrer.commands.MinimizeEvent;
 import com.inventorymanagement.java.main.Launcher;
-import com.inventorymanagement.java.utils.Constants;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class TopMenuController {
     double xOffset;
@@ -70,9 +62,7 @@ public class TopMenuController {
         minimize_btn.setOnMouseClicked(event -> onButtonPressed(new MinimizeEvent()));
 
         log_out_btn.setOnMouseClicked(event -> {
-
             onButtonPressed(new LogoutEvent(event));
-
         });
     }
 
