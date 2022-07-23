@@ -2,6 +2,7 @@ package com.inventorymanagement.java.controllers.TopMenuControllrer.commands;
 
 import com.inventorymanagement.java.utils.Constants;
 import com.inventorymanagement.java.utils.LayoutsActions;
+import com.inventorymanagement.java.utils.observeUserData.UserData;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -25,6 +26,7 @@ public class LogoutEvent extends LayoutsActions implements ButtonPressedEvent {
     public void onExecute() {
         Parent pane = null;
         try {
+            UserData.removeState();
             pane = FXMLLoader.load(getClass().getResource(Constants.AUTH_FXML_DIR));
         } catch (IOException e) {
             System.out.println(e.getMessage());
