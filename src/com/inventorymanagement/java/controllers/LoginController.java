@@ -4,6 +4,7 @@ import com.inventorymanagement.java.dao_composite.Main_DAO;
 import com.inventorymanagement.java.dao_composite.components.UsersDB;
 import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Alerts;
+import com.inventorymanagement.java.utils.Constants;
 import com.inventorymanagement.java.utils.LayoutsActions;
 import com.inventorymanagement.java.utils.ShowTrayNotification;
 import com.inventorymanagement.java.utils.observeUserData.UserData;
@@ -12,14 +13,23 @@ import com.inventorymanagement.java.utils.validators.FacadeValidator;
 import com.inventorymanagement.java.utils.validators.UserNameValidation;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
 
-public class LoginController extends LayoutsActions {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class LoginController extends LayoutsActions implements Initializable {
     UsersDB usersDB = Main_DAO.getInstance().users();
     @FXML
     private StackPane primaryPane;
@@ -35,9 +45,6 @@ public class LoginController extends LayoutsActions {
 
 
 
-    public void initialize() {
-        setStageDraggable();
-    }
 
 
     private boolean validateValues(){
@@ -79,17 +86,31 @@ public class LoginController extends LayoutsActions {
             return;
         }
 
-        setMouseEvent(event);
+        Parent pane = null;
+        MouseEvent mouseEvent = event;
+
 
         try {
             User user = usersDB.getUserByEmailAndPassword(loginEmailBtn.getText(), loginPasswordField.getText());
+            System.out.println("user =>"+ user);
+            UserData.setState(user);
+
             if(user == null){
                 ShowTrayNotification
                         .trayNotification("User Not Found", "Login failed",
                                 AnimationType.SLIDE, NotificationType.ERROR);
                 return;
             }
-            UserData.setState(user);
+            pane = FXMLLoader.load(getClass().getResource(Constants.HOME_FXML_DIR));
+            Node node = (Node) mouseEvent.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+            stage.close();
+            Scene scene = new Scene(pane);
+            scene.getStylesheets().add(getClass().getResource(Constants.STYLESHEET_DIR).toExternalForm());
+            stage.setScene(scene);stage.setResizable(false);
+            stage.show();
+
+
             ShowTrayNotification
                     .trayNotification("Login in success", "Welcome back",
                             AnimationType.SLIDE, NotificationType.SUCCESS);
@@ -109,4 +130,8 @@ public class LoginController extends LayoutsActions {
     }
 
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setStageDraggable();
+    }
 }

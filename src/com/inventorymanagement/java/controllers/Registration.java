@@ -8,6 +8,8 @@ import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Alerts;
 import com.inventorymanagement.java.utils.LayoutsActions;
 import com.inventorymanagement.java.utils.ShowTrayNotification;
+import com.inventorymanagement.java.utils.observeUserData.Observer;
+import com.inventorymanagement.java.utils.observeUserData.UserData;
 import com.inventorymanagement.java.utils.validators.EmailValidation;
 import com.inventorymanagement.java.utils.validators.FacadeValidator;
 import com.inventorymanagement.java.utils.validators.UserNameValidation;
@@ -26,7 +28,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class Registration  extends LayoutsActions implements Initializable {
+public class Registration  extends LayoutsActions implements Initializable , Observer {
+    User userData = UserData.getState();
     UsersDB usersDB = Main_DAO.getInstance().users();
     RolesDB rolesDB = Main_DAO.getInstance().roles();
     FacadeValidator validator = new FacadeValidator(new EmailValidation(),new UserNameValidation());
@@ -48,16 +51,22 @@ public class Registration  extends LayoutsActions implements Initializable {
     JFXComboBox<String> roleComboList = new JFXComboBox<>();
 
 
+    @Override
+    public void update(){
+        this.userData = UserData.getState();
+    }
 
+    private void setButtonsVisibility(){
+        categoryButton.setVisible(userData != null ? userData.getRole().equals("admin") : false);
+        usersButton.setVisible(userData != null ? userData.getRole().equals("admin"): false);
+        historyButton.setVisible(userData != null ? userData.getRole().equals("admin"): false);
+    }
 
 
 
     public void initialize(URL location, ResourceBundle resources) {
-        if(userData == null) return;
-        categoryButton.setVisible(userData.getRole().equals("admin"));
-        usersButton.setVisible(userData.getRole().equals("admin"));
-        historyButton.setVisible(userData.getRole().equals("admin"));
-
+        UserData.addObserver(this);
+        setButtonsVisibility();
         //setting stage draggable
         setStageDraggable();
 

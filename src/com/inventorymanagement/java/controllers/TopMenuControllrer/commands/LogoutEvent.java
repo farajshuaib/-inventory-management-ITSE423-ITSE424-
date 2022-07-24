@@ -21,7 +21,6 @@ public class LogoutEvent extends LayoutsActions implements ButtonPressedEvent {
 
     }
 
-
     @Override
     public void onExecute() {
         Parent pane = null;
@@ -55,6 +54,5 @@ public class LogoutEvent extends LayoutsActions implements ButtonPressedEvent {
             System.out.println("error while setting the main pane => " + e);
         }
     }
-
 
 }

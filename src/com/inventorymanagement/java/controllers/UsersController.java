@@ -8,6 +8,8 @@ import com.inventorymanagement.java.utils.Alerts;
 import com.inventorymanagement.java.utils.Constants;
 import com.inventorymanagement.java.utils.LayoutsActions;
 import com.inventorymanagement.java.utils.MyScene;
+import com.inventorymanagement.java.utils.observeUserData.Observer;
+import com.inventorymanagement.java.utils.observeUserData.UserData;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleStringProperty;
@@ -32,7 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class UsersController extends LayoutsActions implements Initializable {
+public class UsersController extends LayoutsActions implements Initializable, Observer {
+    User userData = UserData.getState();
 
     UsersDB usersDB = Main_DAO.getInstance().users();
     @FXML
@@ -65,14 +68,17 @@ public class UsersController extends LayoutsActions implements Initializable {
     private JFXTreeTableView<UsersController.RecursiveUser> tableView;
 
 
+    private void setButtonsVisibility(){
+        categoryButton.setVisible(userData != null ? userData.getRole().equals("admin") : false);
+        usersButton.setVisible(userData != null ? userData.getRole().equals("admin"): false);
+        historyButton.setVisible(userData != null ? userData.getRole().equals("admin"): false);
+    }
+
 
     public void initialize(URL location, ResourceBundle resources) {
-        if(userData == null) return;
-        categoryButton.setVisible(userData.getRole().equals("admin"));
-        usersButton.setVisible(userData.getRole().equals("admin"));
-        historyButton.setVisible(userData.getRole().equals("admin"));
+        UserData.addObserver(this);
+        setButtonsVisibility();
 
-        ProgressBar progressBar = new ProgressBar();
         // initializing list objects
         UsersList = FXCollections.observableArrayList();
 
@@ -87,6 +93,11 @@ public class UsersController extends LayoutsActions implements Initializable {
 
         // setting the stage draggable
         setStageDraggable();
+    }
+
+    @Override
+    public void update(){
+        this.userData = UserData.getState();
     }
 
     private void setBtnEvents() {

@@ -33,11 +33,9 @@ public class UserData implements UserDataT {
     }
 
     public static void notifyObserver(){
-        System.out.println("notifyObserver is called");
-        observerList.get(0).update();
-//        observerList.forEach(observer -> {
-//            observer.update();
-//        });
+        observerList.forEach(observer -> {
+            observer.update();
+        });
     }
 
 }

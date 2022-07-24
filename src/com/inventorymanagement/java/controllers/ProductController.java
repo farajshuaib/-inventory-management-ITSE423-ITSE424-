@@ -8,11 +8,14 @@ import com.inventorymanagement.java.dao_composite.components.ProductsDB;
 import com.inventorymanagement.java.models.Category;
 import com.inventorymanagement.java.models.History;
 import com.inventorymanagement.java.models.Product;
+import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Alerts;
+import com.inventorymanagement.java.utils.LayoutsActions;
+import com.inventorymanagement.java.utils.observeUserData.Observer;
+import com.inventorymanagement.java.utils.observeUserData.UserData;
 import com.inventorymanagement.java.utils.validators.EmailValidation;
 import com.inventorymanagement.java.utils.validators.FacadeValidator;
 import com.inventorymanagement.java.utils.validators.UserNameValidation;
-import com.inventorymanagement.java.utils.LayoutsActions;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleStringProperty;
@@ -34,7 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ProductController extends LayoutsActions implements Initializable {
+public class ProductController extends LayoutsActions implements Initializable, Observer {
+    User userData = UserData.getState();
     ProductsDB productsDB = Main_DAO.getInstance().products();
     CategoriesDB categoriesDB = Main_DAO.getInstance().Categories();
     HistoryDB historyDB =  Main_DAO.getInstance().history();
@@ -68,17 +72,22 @@ public class ProductController extends LayoutsActions implements Initializable {
     @FXML
     private JFXTreeTableView<RecursiveProduct> tableView;
 
+    private void setButtonsVisibility(){
+        categoryButton.setVisible(userData != null ? userData.getRole().equals("admin") : false);
+        usersButton.setVisible(userData != null ? userData.getRole().equals("admin"): false);
+        historyButton.setVisible(userData != null ? userData.getRole().equals("admin"): false);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        UserData.addObserver(this);
+        setButtonsVisibility();
+
         productList = FXCollections.observableArrayList();
         getProductsList = productsDB.getAll();
 
         validator = new FacadeValidator(new EmailValidation(), new UserNameValidation());
 
-        if(userData == null) return;
-        categoryButton.setVisible(userData.getRole().equals("admin"));
-        usersButton.setVisible(userData.getRole().equals("admin"));
-        historyButton.setVisible(userData.getRole().equals("admin"));
 
         // setting btn events
         btnEvents();
@@ -86,6 +95,11 @@ public class ProductController extends LayoutsActions implements Initializable {
         setTable();
         // setting stage draggable
         setStageDraggable();
+    }
+
+    @Override
+    public void update(){
+        this.userData = UserData.getState();
     }
 
     public void refreshAction() {

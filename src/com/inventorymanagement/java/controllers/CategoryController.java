@@ -4,8 +4,11 @@ package com.inventorymanagement.java.controllers;
 import com.inventorymanagement.java.dao_composite.Main_DAO;
 import com.inventorymanagement.java.dao_composite.components.CategoriesDB;
 import com.inventorymanagement.java.models.Category;
+import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Alerts;
 import com.inventorymanagement.java.utils.LayoutsActions;
+import com.inventorymanagement.java.utils.observeUserData.Observer;
+import com.inventorymanagement.java.utils.observeUserData.UserData;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleStringProperty;
@@ -26,7 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class CategoryController extends LayoutsActions implements Initializable {
+public class CategoryController extends LayoutsActions implements Initializable, Observer {
+    User userData = UserData.getState();
     CategoriesDB categoriesDB = Main_DAO.getInstance().Categories();
     @FXML
     private StackPane primaryPane;
@@ -52,15 +56,17 @@ public class CategoryController extends LayoutsActions implements Initializable 
     @FXML
     private JFXTreeTableView<RecursiveCategory> tableView;
 
+    private void setButtonsVisibility(){
+        categoryButton.setVisible(userData != null ? userData.getRole().equals("admin") : false);
+        usersButton.setVisible(userData != null ? userData.getRole().equals("admin"): false);
+        historyButton.setVisible(userData != null ? userData.getRole().equals("admin"): false);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if(userData == null) return;
-        categoryButton.setVisible(userData.getRole().equals("admin"));
-        usersButton.setVisible(userData.getRole().equals("admin"));
-        historyButton.setVisible(userData.getRole().equals("admin"));
+        UserData.addObserver(this);
+        setButtonsVisibility();
 
-        ProgressBar progressBar = new ProgressBar();
-        // initializing list objects
         categoryList = FXCollections.observableArrayList();
 
         // fetching the list from database
@@ -301,6 +307,11 @@ public class CategoryController extends LayoutsActions implements Initializable 
                 tableView.setPredicate(modelTreeItem ->
                         modelTreeItem.getValue().id.getValue().toLowerCase().contains(newValue)
                                 | modelTreeItem.getValue().categoryName.getValue().toLowerCase().contains(newValue)));
+    }
+
+    @Override
+    public void update(){
+        this.userData = UserData.getState();
     }
 
 

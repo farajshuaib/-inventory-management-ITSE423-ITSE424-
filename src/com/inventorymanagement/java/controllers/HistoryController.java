@@ -4,7 +4,10 @@ package com.inventorymanagement.java.controllers;
 import com.inventorymanagement.java.dao_composite.Main_DAO;
 import com.inventorymanagement.java.dao_composite.components.HistoryDB;
 import com.inventorymanagement.java.models.History;
+import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.LayoutsActions;
+import com.inventorymanagement.java.utils.observeUserData.Observer;
+import com.inventorymanagement.java.utils.observeUserData.UserData;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
@@ -25,9 +28,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class HistoryController extends LayoutsActions implements Initializable {
+public class HistoryController extends LayoutsActions implements Initializable, Observer {
+    User userData = UserData.getState();
 
     HistoryDB historyDB =  Main_DAO.getInstance().history();
+
     List<History> getHistoryList = null;
     ObservableList<RecursiveHistory> recordList = null;
     @FXML
@@ -50,11 +55,17 @@ public class HistoryController extends LayoutsActions implements Initializable {
     @FXML
     private JFXTextField searchField;
 
+    private void setButtonsVisibility(){
+        categoryButton.setVisible(userData != null ? userData.getRole().equals("admin") : false);
+        usersButton.setVisible(userData != null ? userData.getRole().equals("admin"): false);
+        historyButton.setVisible(userData != null ? userData.getRole().equals("admin"): false);
+    }
+
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if(userData == null) return;
-        categoryButton.setVisible(userData.getRole().equals("admin"));
-        usersButton.setVisible(userData.getRole().equals("admin"));
-        historyButton.setVisible(userData.getRole().equals("admin"));
+        UserData.addObserver(this);
+        setButtonsVisibility();
+
 
         recordList = FXCollections.observableArrayList();
         getHistoryList = historyDB.getAll();
@@ -63,6 +74,12 @@ public class HistoryController extends LayoutsActions implements Initializable {
         setTable();
         //set stage draggable
         setStageDraggable();
+    }
+
+
+    @Override
+    public void update(){
+        this.userData = UserData.getState();
     }
 
     public void refreshAction() {
