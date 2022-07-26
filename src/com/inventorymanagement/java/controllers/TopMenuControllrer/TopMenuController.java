@@ -1,12 +1,8 @@
 
 package com.inventorymanagement.java.controllers.TopMenuControllrer;
 
-import com.inventorymanagement.java.controllers.TopMenuControllrer.commands.ButtonPressedEvent;
-import com.inventorymanagement.java.controllers.TopMenuControllrer.commands.LogoutEvent;
-import com.inventorymanagement.java.controllers.TopMenuControllrer.commands.MaximizeEvent;
-import com.inventorymanagement.java.controllers.TopMenuControllrer.commands.MinimizeEvent;
+import com.inventorymanagement.java.controllers.TopMenuControllrer.commands.*;
 import com.inventorymanagement.java.main.Launcher;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -51,12 +47,12 @@ public class TopMenuController {
 
     private void mouseEvents() {
 
-        exit_btn.setOnMouseClicked(event -> Platform.exit());
+        exit_btn.setOnMouseClicked(event -> {
+            onButtonPressed(new CloseEvent(event));
+        });
 
         maximize_btn.setOnMouseClicked(event -> {
-
             onButtonPressed(new MaximizeEvent());
-
         });
 
         minimize_btn.setOnMouseClicked(event -> onButtonPressed(new MinimizeEvent()));
