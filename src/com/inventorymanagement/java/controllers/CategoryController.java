@@ -1,8 +1,8 @@
 
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao_composite.Main_DAO;
-import com.inventorymanagement.java.dao_composite.components.CategoriesDB;
+import com.inventorymanagement.java.dao.Main_DAO;
+import com.inventorymanagement.java.dao.components.CategoriesDB;
 import com.inventorymanagement.java.models.Category;
 import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Alerts;
@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 
 public class CategoryController extends LayoutsActions implements Initializable, Observer {
     User userData = UserData.getState();
-    CategoriesDB categoriesDB = Main_DAO.getInstance().Categories();
+    CategoriesDB categoriesDB = Main_DAO.getInstance().getCategories();
     @FXML
     private StackPane primaryPane;
     List<Category> getCategoryList = null;

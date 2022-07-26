@@ -1,7 +1,7 @@
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao_composite.Main_DAO;
-import com.inventorymanagement.java.dao_composite.components.UsersDB;
+import com.inventorymanagement.java.dao.Main_DAO;
+import com.inventorymanagement.java.dao.components.UsersDB;
 import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Alerts;
 import com.inventorymanagement.java.utils.Constants;
@@ -30,7 +30,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LoginController extends LayoutsActions implements Initializable {
-    UsersDB usersDB = Main_DAO.getInstance().users();
+    UsersDB usersDB = Main_DAO.getInstance().getUsers();
     @FXML
     private StackPane primaryPane;
     @FXML

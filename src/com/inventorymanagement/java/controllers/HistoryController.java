@@ -1,8 +1,8 @@
 
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao_composite.Main_DAO;
-import com.inventorymanagement.java.dao_composite.components.HistoryDB;
+import com.inventorymanagement.java.dao.Main_DAO;
+import com.inventorymanagement.java.dao.components.HistoryDB;
 import com.inventorymanagement.java.models.History;
 import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.LayoutsActions;
@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 public class HistoryController extends LayoutsActions implements Initializable, Observer {
     User userData = UserData.getState();
 
-    HistoryDB historyDB =  Main_DAO.getInstance().history();
+    HistoryDB historyDB =  Main_DAO.getInstance().getHistory();
 
     List<History> getHistoryList = null;
     ObservableList<RecursiveHistory> recordList = null;

@@ -1,8 +1,8 @@
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao_composite.Main_DAO;
-import com.inventorymanagement.java.dao_composite.components.RolesDB;
-import com.inventorymanagement.java.dao_composite.components.UsersDB;
+import com.inventorymanagement.java.dao.Main_DAO;
+import com.inventorymanagement.java.dao.components.RolesDB;
+import com.inventorymanagement.java.dao.components.UsersDB;
 import com.inventorymanagement.java.models.Roles;
 import com.inventorymanagement.java.models.User;
 import com.inventorymanagement.java.utils.Alerts;
@@ -30,8 +30,8 @@ import java.util.ResourceBundle;
 
 public class Registration  extends LayoutsActions implements Initializable , Observer {
     User userData = UserData.getState();
-    UsersDB usersDB = Main_DAO.getInstance().users();
-    RolesDB rolesDB = Main_DAO.getInstance().roles();
+    UsersDB usersDB = Main_DAO.getInstance().getUsers();
+    RolesDB rolesDB = Main_DAO.getInstance().getRoles();
     FacadeValidator validator = new FacadeValidator(new EmailValidation(),new UserNameValidation());
 
     @FXML

@@ -1,10 +1,10 @@
 
 package com.inventorymanagement.java.controllers;
 
-import com.inventorymanagement.java.dao_composite.Main_DAO;
-import com.inventorymanagement.java.dao_composite.components.CategoriesDB;
-import com.inventorymanagement.java.dao_composite.components.HistoryDB;
-import com.inventorymanagement.java.dao_composite.components.ProductsDB;
+import com.inventorymanagement.java.dao.Main_DAO;
+import com.inventorymanagement.java.dao.components.CategoriesDB;
+import com.inventorymanagement.java.dao.components.HistoryDB;
+import com.inventorymanagement.java.dao.components.ProductsDB;
 import com.inventorymanagement.java.models.Category;
 import com.inventorymanagement.java.models.History;
 import com.inventorymanagement.java.models.Product;
@@ -39,9 +39,9 @@ import java.util.ResourceBundle;
 
 public class ProductController extends LayoutsActions implements Initializable, Observer {
     User userData = UserData.getState();
-    ProductsDB productsDB = Main_DAO.getInstance().products();
-    CategoriesDB categoriesDB = Main_DAO.getInstance().Categories();
-    HistoryDB historyDB =  Main_DAO.getInstance().history();
+    ProductsDB productsDB = Main_DAO.getInstance().getProducts();
+    CategoriesDB categoriesDB = Main_DAO.getInstance().getCategories();
+    HistoryDB historyDB =  Main_DAO.getInstance().getHistory();
     List<Product> getProductsList = null;
     ObservableList<RecursiveProduct> productList = null;
     FacadeValidator validator;
