@@ -12,6 +12,8 @@ import com.inventorymanagement.java.utils.validators.EmailValidation;
 import com.inventorymanagement.java.utils.validators.FacadeValidator;
 import com.inventorymanagement.java.utils.validators.UserNameValidation;
 import com.jfoenix.controls.JFXButton;
+import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,9 +22,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
 
@@ -40,9 +44,10 @@ public class LoginController extends LayoutsActions implements Initializable {
     @FXML
     private JFXButton loginBtn;
 
+    @FXML
+    private ImageView bannerImage;
+
     FacadeValidator validator = new FacadeValidator(new EmailValidation(),new UserNameValidation());
-
-
 
 
 
@@ -130,8 +135,21 @@ public class LoginController extends LayoutsActions implements Initializable {
     }
 
 
+    private void playAnimations() {
+        TranslateTransition translateTransition  = new TranslateTransition(Duration.seconds(2) , loginBtn);
+        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(2), bannerImage);
+        translateTransition.setFromY(40);
+        translateTransition.setByY(-50);
+        fadeTransition.setFromValue(0);
+        fadeTransition.setToValue(1);
+        fadeTransition.play();
+        translateTransition.play();
+    }
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setStageDraggable();
+        playAnimations();
     }
 }

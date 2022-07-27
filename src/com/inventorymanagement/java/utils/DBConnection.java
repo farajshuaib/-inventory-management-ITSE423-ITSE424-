@@ -67,7 +67,7 @@ public class DBConnection {
             this.connection = connection;
             this.statement = connection.createStatement();
         } catch (SQLException e) {
-            Alerts.jfxAlertShowAndWait("Error", "Unable to connect to database");
+            System.out.println("Error :" + "Unable to connect to database => " + e);
         }
     }
 }

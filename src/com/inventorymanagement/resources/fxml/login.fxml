@@ -36,7 +36,7 @@
                                 <HBox prefHeight="494.0" prefWidth="913.0" VBox.vgrow="ALWAYS">
                                     <children>
                                         <VBox focusTraversable="true" prefHeight="427.0" prefWidth="370.0" HBox.hgrow="ALWAYS" alignment="CENTER">
-                                            <ImageView fitHeight="427.0" fitWidth="370.0"
+                                            <ImageView fx:id="bannerImage" fitHeight="427.0" fitWidth="370.0"
                                                        layoutX="18.0" layoutY="18.0"
                                                        pickOnBounds="true" preserveRatio="true">
                                                 <image>

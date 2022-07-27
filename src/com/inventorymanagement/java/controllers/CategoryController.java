@@ -305,8 +305,7 @@ public class CategoryController extends LayoutsActions implements Initializable,
 
         searchField.textProperty().addListener((observable, oldValue, newValue) ->
                 tableView.setPredicate(modelTreeItem ->
-                        modelTreeItem.getValue().id.getValue().toLowerCase().contains(newValue)
-                                | modelTreeItem.getValue().categoryName.getValue().toLowerCase().contains(newValue)));
+                        modelTreeItem.getValue().id.getValue().toLowerCase().contains(newValue) | modelTreeItem.getValue().categoryName.getValue().toLowerCase().contains(newValue)));
     }
 
     @Override
