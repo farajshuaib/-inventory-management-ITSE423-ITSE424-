@@ -38,6 +38,7 @@ public class Launcher extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("Inventory Management System");
         primaryStage.getIcons().add(new Image(Constants.STAGE_ICON));
+        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
 
